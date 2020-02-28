@@ -1,0 +1,108 @@
+version: '3'
+services:
+    mst-database:
+        container_name: postgres_container
+        image: postgres:alpine
+        environment:
+            POSTGRES_DB: mst
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            PGDATA: /data/postgres
+        volumes:
+            - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+            - database:/data/postgres
+        ports:
+            - "5432:5432"
+        restart: unless-stopped
+
+    pgadmin:
+        container_name: pgadmin_container
+        image: dpage/pgadmin4
+        environment:
+            PGADMIN_DEFAULT_EMAIL: dbadmin@mst.com
+            PGADMIN_DEFAULT_PASSWORD: postgres
+        volumes:
+            - pgadmin:/root/.pgadmin
+        depends_on:
+            - mst-database
+        links:
+            - mst-database:postgres
+        ports:
+        - "5433:80"
+        restart: unless-stopped
+    
+    mst:
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        container_name: mst_container
+        image: mst
+        environment:
+            DATABASE_HOST: postgres
+            DATABASE_PORT: 5432
+            DATABASE_USER: postgres
+            DATABASE_PASSWORD: postgres
+            DATABASE_NAME: mst
+            #JAEGER_SERVICE_NAME
+            JAEGER_AGENT_HOST: jaeger
+            JAEGER_AGENT_PORT: 6831
+            JAEGER_SERVICE_NAME: mst
+        # Waiting for Database
+        command: >
+            /bin/ash -c "
+              while ! nc -z postgres 5432;
+              do
+                echo sleeping;
+                sleep 1;
+              done;
+              /app/mst
+            "
+        depends_on:
+            - mst-database
+        links:
+            - mst-database:postgres
+            - jaeger:jaeger
+        ports:
+            - "8000:8000"
+    
+    prometheus:
+        container_name: prometheus_container
+        image: prom/prometheus
+        volumes:
+            - ./prometheus.yml:/etc/prometheus/prometheus.yml
+        depends_on:
+            - mst
+        links:
+            - mst:mst
+        ports:
+            - "9090:9090"
+
+    jaeger:
+        container_name: jaeger_container
+        image: jaegertracing/all-in-one
+        environment:
+            COLLECTOR_ZIPKIN_HTTP_PORT: 9411
+        ports:
+            - "6831:6831/udp"
+            - "16686:16686"
+
+    grafana:
+        container_name: grafana_container
+        image: grafana/grafana
+        volumes:
+            - grafana:/var/lib/grafana
+        depends_on:
+            - prometheus
+            - mst-database
+        links:
+            - prometheus:prometheus
+            - mst-database:postgres
+        ports:
+            - "3000:3000"
+
+volumes:
+    init.sql:
+    database:
+    pgadmin:
+    prometheus.yml:
+    grafana:
