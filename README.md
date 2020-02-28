@@ -4,6 +4,8 @@
 ## Features
 - Golang
     - [x] Static compiling
+    - [ ] Clean Architecture
+    - [ ] Makefile
     - [x] Dockerfile
     - [x] Echo Web Framework
     - [ ] GORM
