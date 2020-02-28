@@ -1,19 +1,19 @@
 # microservice-template
-Complete GO Microservice Template
+**Complete Golang Microservice Template**
 
 ## Features
-- [ ] Golang
-    - [ ] Static compiling
-    - [ ] Dockerfile
-    - [ ] Echo Web Framework
+- [x] Golang
+    - [x] Static compiling
+    - [x] Dockerfile
+    - [x] Echo Web Framework
     - [ ] GORM
-    - [ ] Panic-Recovery
-    - [ ] Logrus
+    - [x] Panic-Recovery
+    - [x] Logrus
 - [ ] AutoTLS with Let's Encrypt
-- [ ] Docker-Compose that inits all services
-- [ ] Postgres
-- [ ] PgAdmin4
-- [ ] Prometheus
-- [ ] Jaeger
-- [ ] Grafana
+- [x] Docker-Compose that inits all services
+- [x] Postgres
+- [x] PgAdmin4
+- [x] Prometheus
+- [x] Jaeger
+- [x] Grafana
 - [ ] NewRelic
