@@ -15,7 +15,8 @@
     - [ ] AutoTLS with Let's Encrypt
     - [ ] CORS management
     - [ ] Services protected with Authorization
-    - [ ] Isolated database users for admin, ms and metrics
+    - [ ] Secrets at environment variables
+    - [ ] Isolated database users for admin, app and metrics
 - Services
     - [x] Docker-Compose that inits all services
     - [x] Postgres
@@ -24,3 +25,4 @@
     - [x] Jaeger
     - [x] Grafana
     - [ ] NewRelic
+    - [x] Sentry

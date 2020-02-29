@@ -43,10 +43,13 @@ services:
             DATABASE_USER: postgres
             DATABASE_PASSWORD: postgres
             DATABASE_NAME: mst
-            #JAEGER_SERVICE_NAME
+            PROMETHEUS_SUBSYSTEM_NAME: mst
             JAEGER_AGENT_HOST: jaeger
             JAEGER_AGENT_PORT: 6831
             JAEGER_SERVICE_NAME: mst
+            #SENTRY_DSN:
+            #NEWRELIC_APPNAME:
+            #NEWRELIC_LICENSEKEY:
         # Waiting for Database
         command: >
             /bin/ash -c "
