@@ -2,7 +2,7 @@
 **Complete Golang Microservice Template**
 
 ## Features
-- Golang
+- Golang Server
     - [x] Static compiling
     - [ ] Clean Architecture
     - [ ] Makefile
@@ -16,8 +16,8 @@
     - [ ] AutoTLS with Let's Encrypt
     - [ ] CORS management
     - [ ] Services protected with Authorization
-    - [ ] Secrets at environment variables
-    - [ ] Isolated database users for admin, app and metrics
+    - [ ] Secrets for environment variables
+    - [ ] Different database users for admin, app and metrics
 - Services
     - [x] Docker-Compose that inits all services
     - [x] Postgres
@@ -29,3 +29,5 @@
     - [x] Sentry (SaS)
         - [ ] Sentry (Self-Hosted)
     - [ ] Swagger
+    - [ ] Helm charts for deployment
+    - [ ] Nginx/Traefik for load balancing
