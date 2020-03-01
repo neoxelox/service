@@ -12,16 +12,18 @@
     - [x] Panic-Recovery
     - [x] Logrus
     - [ ] Documentation
+    - [ ] Automatic Locales Internationalization
 - Security
     - [ ] AutoTLS with Let's Encrypt
     - [ ] CORS management
     - [ ] Services protected with Authorization
-    - [ ] Secrets for environment variables
+    - [ ] AWS Secret Manager for environmental variables
     - [ ] Different database users for admin, app and metrics
 - Services
     - [x] Docker-Compose that inits all services
     - [x] Postgres
     - [x] PgAdmin4
+    - [ ] Metabase
     - [x] Prometheus
     - [x] Jaeger
     - [x] Grafana
@@ -29,5 +31,6 @@
     - [x] Sentry (SaS)
         - [ ] Sentry (Self-Hosted)
     - [ ] Swagger
+    - [ ] Weblate/Traduora (Self-Hosted)
     - [ ] Helm charts for deployment
     - [ ] Nginx/Traefik for load balancing
