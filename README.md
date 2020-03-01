@@ -11,6 +11,7 @@
     - [ ] GORM
     - [x] Panic-Recovery
     - [x] Logrus
+    - [ ] Documentation
 - Security
     - [ ] AutoTLS with Let's Encrypt
     - [ ] CORS management
@@ -25,4 +26,6 @@
     - [x] Jaeger
     - [x] Grafana
     - [ ] NewRelic
-    - [x] Sentry
+    - [x] Sentry (SaS)
+        - [ ] Sentry (Self-Hosted)
+    - [ ] Swagger
