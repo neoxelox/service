@@ -30,6 +30,7 @@
     - [ ] NewRelic
     - [x] Sentry (SaS)
         - [ ] Sentry (Self-Hosted)
+    - [ ] Celery or other distributed task system
     - [ ] Swagger
     - [ ] Weblate/Traduora (Self-Hosted)
     - [ ] Helm charts for deployment
