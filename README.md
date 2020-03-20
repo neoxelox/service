@@ -7,6 +7,7 @@
     - [ ] Clean Architecture
     - [ ] Complete Mock testing
     - [ ] Makefile
+    - [ ] Error checking with GolangCI-Lint
     - [x] Dockerfile
     - [x] Echo Web Framework
     - [ ] GORM
@@ -36,3 +37,4 @@
     - [ ] Weblate/Traduora (Self-Hosted)
     - [ ] Helm charts for deployment
     - [ ] Nginx/Traefik for load balancing
+    - [ ] Codecov
