@@ -5,6 +5,7 @@
 - Golang Server
     - [x] Static compiling
     - [ ] Clean Architecture
+    - [ ] Complete Mock testing
     - [ ] Makefile
     - [x] Dockerfile
     - [x] Echo Web Framework
