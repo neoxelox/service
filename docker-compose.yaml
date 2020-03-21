@@ -4,7 +4,7 @@ services:
         container_name: postgres_container
         image: postgres:alpine
         environment:
-            POSTGRES_DB: mst
+            POSTGRES_DB: postgres
             POSTGRES_USER: postgres
             POSTGRES_PASSWORD: postgres
             PGDATA: /data/postgres
@@ -38,18 +38,20 @@ services:
         container_name: mst_container
         image: mst
         environment:
+            APP_PORT: 8000
+            APP_DEBUG: 'true'
+            APP_NAME: mst
+            APP_RELEASE: v1
             DATABASE_HOST: postgres
             DATABASE_PORT: 5432
             DATABASE_USER: postgres
             DATABASE_PASSWORD: postgres
             DATABASE_NAME: mst
-            PROMETHEUS_SUBSYSTEM_NAME: mst
             JAEGER_AGENT_HOST: jaeger
             JAEGER_AGENT_PORT: 6831
             JAEGER_SERVICE_NAME: mst
-            #SENTRY_DSN:
-            #NEWRELIC_APPNAME:
-            #NEWRELIC_LICENSEKEY:
+            SENTRY_DSN: ${SENTRY_DSN}
+            NEWRELIC_LICENSEKEY: ${NEWRELIC_LICENSEKEY}
         # Waiting for Database
         command: >
             /bin/ash -c "

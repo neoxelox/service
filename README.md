@@ -1,5 +1,5 @@
 # microservice-template
-**Complete Golang Microservice Template**
+**Complete Over-engineered Golang Microservice Template**
 
 ## Features
 - Golang Server
@@ -10,7 +10,8 @@
     - [ ] Error checking with GolangCI-Lint
     - [x] Dockerfile
     - [x] Echo Web Framework
-    - [ ] GORM
+    - [ ] Plain sql or GORM
+        - [ ] Migration manager as golang-migrate
     - [x] Panic-Recovery
     - [x] Logrus
     - [ ] Documentation
@@ -30,7 +31,7 @@
     - [x] Jaeger
     - [x] Grafana
     - [ ] NewRelic
-    - [x] Sentry (SaS)
+    - [x] Sentry (SaaS)
         - [ ] Sentry (Self-Hosted)
     - [ ] Celery or other distributed task system
     - [ ] Swagger

@@ -1,59 +1,42 @@
 package main
 
 import (
-	"net/http"
+	"context"
+	"fmt"
+	"time"
+
+	"github.com/labstack/echo/v4"
 
 	"mst/config"
-	own_middleware "mst/middleware"
-
-	//"github.com/getsentry/sentry-go"
-	//sentryecho "github.com/getsentry/sentry-go/echo"
-	"github.com/labstack/echo-contrib/jaegertracing"
-	"github.com/labstack/echo-contrib/prometheus"
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	"mst/dependencies"
+	"mst/server"
 )
 
 func main() {
 	// Load Config
 	cfg := config.Load()
 
-	// Init App
-	e := echo.New()
+	// Init App Dependencies
+	dependencies, err := dependencies.Initialize(cfg)
+	if err != nil {
+		panic(err)
+	}
+	defer dependencies.DB.Close(context.Background())
 
-	// Middlewares
-	e.Use(middleware.Recover())
+	// Create App
+	app := echo.New()
 
-	e.Use(own_middleware.Logrus())
+	// Setup Routes with Middlewares
+	services, err := server.SetupRoutes(cfg, app, dependencies)
+	if err != nil {
+		panic(err)
+	}
+	defer services.Sentry.Flush(time.Second * 5)
+	defer services.Jaeger.Close()
 
-	// Needs credentials
-	// err := sentry.Init(sentry.ClientOptions{
-	// 	Dsn: cfg.Sentry.Dsn,
-	// })
-	// if err != nil {
-	// 	e.Logger.Fatalf("Sentry initialization failed: %v\n", err)
-	// }
-	// defer sentry.Flush(time.Second * 5)
-	// // https://docs.sentry.io/platforms/go/echo/#usage
-	// e.Use(sentryecho.New(sentryecho.Options{
-	// 	Repanic: true,
-	// }))
-
-	p := prometheus.NewPrometheus(cfg.Prometheus.SubsystemName, nil)
-	p.Use(e)
-
-	// Needs credentials
-	//e.Use(own_middleware.NewRelic("app name", "license_key"))
-
-	c := jaegertracing.New(e, nil)
-	defer c.Close()
-
-	// ----------
-
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
+	// Start extra Asynchronous Services with goroutines
+	// -
 
 	// Start App
-	e.Logger.Fatal(e.Start(":8000"))
+	app.Logger.Fatal(app.Start(fmt.Sprintf(":%d", cfg.App.Port)))
 }
