@@ -39,3 +39,24 @@
     - [ ] Helm charts for deployment
     - [ ] Nginx/Traefik for load balancing
     - [ ] Codecov
+
+## Structure
+```
+.
+├── config
+├── connector
+│   └── fortune
+├── database
+│   ├── migrations
+│   └── repository
+│       └── cookie
+├── dependencies
+├── logic
+│   └── entity
+│       └── cookie
+├── server
+│   ├── handler
+│   │   └── cookie
+│   └── middleware
+└── utils
+```
