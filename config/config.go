@@ -20,7 +20,7 @@ type (
 		User     string
 		Password string
 		Name     string
-		URL      string
+		Dsn      string
 	}
 
 	newRelic struct {
@@ -55,7 +55,7 @@ func Load() *Config {
 			Port:     getEnvAsInt("DATABASE_PORT", 5432),
 			User:     getEnvAsString("DATABASE_USER", "postgres"),
 			Password: getEnvAsString("DATABASE_PASSWORD", "postgres"),
-			URL: fmt.Sprintf("postgresql://%s:%s@%s:%d",
+			Dsn: fmt.Sprintf("postgresql://%s:%s@%s:%d",
 				getEnvAsString("DATABASE_USER", "postgres"),
 				getEnvAsString("DATABASE_PASSWORD", "postgres"),
 				getEnvAsString("DATABASE_HOST", "localhost"),

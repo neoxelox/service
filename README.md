@@ -26,7 +26,7 @@
     - [x] Docker-Compose that inits all services
     - [x] Postgres
     - [x] PgAdmin4
-    - [ ] Metabase
+    - [x] Metabase
     - [x] Prometheus
     - [x] Jaeger
     - [x] Grafana

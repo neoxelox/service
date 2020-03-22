@@ -1,7 +1,6 @@
 PACKAGES ?= ./...
 FLAGS ?=
 DEVTOOLS ?= $(shell $(GOPATH)/bin/golangci-lint --version)
-CONTAINERS ?= $(shell docker ps -a -q)
 
 start:
 	docker-compose up -d
@@ -10,7 +9,7 @@ start:
 
 stop:
 	docker-compose down
-	docker stop $(CONTAINERS) 
+	docker stop $(shell docker ps -a -q)
 .SILENT: stop
 
 build:
@@ -19,7 +18,7 @@ build:
 .SILENT: build
 
 remove: stop
-	docker rm $(CONTAINERS)
+	docker rm $(shell docker ps -a -q)
 .SILENT: remove
 
 prune: stop remove

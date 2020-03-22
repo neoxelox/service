@@ -4,7 +4,7 @@ GRANT ALL PRIVILEGES ON DATABASE mst to postgres;
 --CREATE DATABASE extra;
 --GRANT ALL PRIVILEGES ON DATABASE extra to postgres;
 
---[Users]
+--[Users DO NOT CREATE THEM HERE IT WILL BE PUBLIC!]
 -- CREATE USER metrics WITH PASSWORD 'your_password';
 -- GRANT CONNECT ON DATABASE database_name TO username;
 -- GRANT USAGE ON SCHEMA schema_name TO username;
