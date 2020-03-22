@@ -35,6 +35,7 @@ test:
 
 cover:
 	go test -race -count=1 $(PACKAGES) -coverprofile=coverage.out && go tool cover -html=coverage.out
+	rm -f coverage.out
 .SILENT: cover
 
 lint: devtools
