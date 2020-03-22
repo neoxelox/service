@@ -6,8 +6,8 @@
     - [x] Static compiling
     - [ ] Clean Architecture
     - [ ] Complete Mock testing
-    - [ ] Makefile
-    - [ ] Error checking with GolangCI-Lint
+    - [x] Makefile
+    - [x] Error checking with GolangCI-Lint
     - [x] Dockerfile
     - [x] Echo Web Framework
     - [ ] Plain sql or GORM
@@ -38,7 +38,7 @@
     - [ ] Weblate/Traduora (Self-Hosted)
     - [ ] Helm charts for deployment
     - [ ] Nginx/Traefik for load balancing
-    - [ ] Codecov
+    - [ ] Codecov or similar
 
 ## Structure
 ```
