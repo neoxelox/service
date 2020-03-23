@@ -16,6 +16,7 @@
     - [x] Logrus
     - [ ] Documentation
     - [ ] Automatic Locales Internationalization
+    - [ ] Graceful shutdown
 - Security
     - [ ] AutoTLS with Let's Encrypt
     - [ ] CORS management
@@ -25,7 +26,7 @@
 - Services
     - [x] Docker-Compose that inits all services
     - [x] Postgres
-    - [x] PgAdmin4
+    - [x] PgAdmin4 (Note: don't use this in prod lul)
     - [x] Metabase
     - [x] Prometheus
     - [x] Jaeger
