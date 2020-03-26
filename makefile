@@ -8,7 +8,7 @@ start:
 .SILENT: start
 
 stop:
-	docker-compose down
+	docker-compose stop
 	docker stop $(shell docker ps -a -q)
 .SILENT: stop
 
@@ -27,9 +27,9 @@ prune: stop remove
 
 test:
 	go test -race -count=1 $(FLAGS) $(PACKAGES) -cover | tee coverage.out
-	echo "\e[1m=====================================\e[0m"
+	echo "\e[1m====================================="
 	grep -Po "[0-9]+\.[0-9]+(?=%)" coverage.out | awk '{ SUM += $$1; PKGS += 1} END { print "  Total Coverage (" PKGS " pkg/s) : " SUM/PKGS "%"}'
-	echo "\e[1m=====================================\e[0m"
+	echo "=====================================\e[0m"
 	rm -f coverage.out
 .SILENT: test
 

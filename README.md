@@ -14,7 +14,7 @@
         - [ ] Migration manager as golang-migrate
     - [x] Panic-Recovery
     - [x] Logrus
-    - [ ] Documentation
+    - [ ] Documentation (Grindsome Docc)
     - [ ] Automatic Locales Internationalization
     - [ ] Graceful shutdown
 - Security
@@ -37,6 +37,7 @@
     - [ ] Celery or other distributed task system
     - [ ] Swagger
     - [ ] Weblate/Traduora (Self-Hosted)
+    - [ ] Fossa
     - [ ] Helm charts for deployment
     - [ ] Nginx/Traefik for load balancing
     - [ ] Codecov or similar
