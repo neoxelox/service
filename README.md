@@ -17,6 +17,7 @@
     - [ ] Documentation (Grindsome Docc)
     - [ ] Automatic Locales Internationalization
     - [ ] Graceful shutdown
+    - [ ] Casbin RBAC Auth Controller
 - Security
     - [ ] AutoTLS with Let's Encrypt
     - [ ] CORS management
