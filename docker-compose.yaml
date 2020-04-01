@@ -5,8 +5,8 @@ services:
         image: postgres:alpine
         environment:
             POSTGRES_DB: postgres
-            POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: postgres
+            POSTGRES_USER: ${DATABASE_USER}
+            POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
             PGDATA: /data/postgres
         volumes:
             - ./init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -14,13 +14,14 @@ services:
         ports:
             - "5432:5432"
         restart: unless-stopped
-
+    
+    # Use this ONLY in staging environment
     pgadmin:
         container_name: pgadmin_container
         image: dpage/pgadmin4
         environment:
             PGADMIN_DEFAULT_EMAIL: dbadmin@mst.com
-            PGADMIN_DEFAULT_PASSWORD: postgres
+            PGADMIN_DEFAULT_PASSWORD: dbadmin
         volumes:
             - pgadmin:/root/.pgadmin
         depends_on:
@@ -57,8 +58,8 @@ services:
             APP_RELEASE: v1
             DATABASE_HOST: postgres
             DATABASE_PORT: 5432
-            DATABASE_USER: postgres
-            DATABASE_PASSWORD: postgres
+            DATABASE_USER: ${DATABASE_USER}
+            DATABASE_PASSWORD: ${DATABASE_PASSWORD}
             DATABASE_NAME: mst
             JAEGER_AGENT_HOST: jaeger
             JAEGER_AGENT_PORT: 6831
