@@ -7,11 +7,12 @@
     - [ ] Clean Architecture
     - [ ] Complete Mock testing
     - [x] Makefile
-    - [x] Error checking with GolangCI-Lint
+    - [x] Styling checks with GolangCI-Lint
     - [x] Dockerfile
     - [x] Echo Web Framework
     - [ ] Plain sql or GORM
         - [ ] Migration manager as golang-migrate
+        - [ ] Embeded migrations with go-bindata
     - [x] Panic-Recovery
     - [x] Logrus
     - [ ] Documentation (Grindsome Docc)
@@ -42,6 +43,7 @@
     - [ ] Helm charts for deployment
     - [ ] Nginx/Traefik for load balancing
     - [ ] Codecov or similar
+    - [ ] Terraform plan
 
 ## Structure
 ```
