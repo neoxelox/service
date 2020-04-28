@@ -5,6 +5,7 @@
 - Golang Server
     - [x] Static compiling
     - [ ] Clean Architecture
+    - [ ] Golang standard layout
     - [ ] Complete Mock testing
     - [x] Makefile
     - [x] Styling checks with GolangCI-Lint
@@ -19,16 +20,18 @@
     - [ ] Automatic Locales Internationalization
     - [ ] Graceful shutdown
     - [ ] Casbin RBAC Auth Controller
+    - [ ] Load tester as Vegeta
 - Security
     - [ ] AutoTLS with Let's Encrypt
     - [ ] CORS management
     - [ ] Services protected with Authorization
     - [ ] AWS Secret Manager for environmental variables
     - [ ] Different database users for admin, app and metrics
+    - [ ] Gosec automatic checks
 - Services
     - [x] Docker-Compose that inits all services
     - [x] Postgres
-    - [x] PgAdmin4 (Note: don't use this in prod lul)
+    - [x] PgAdmin4 (Note: don't use this in prod)
     - [x] Metabase
     - [x] Prometheus
     - [x] Jaeger
@@ -37,6 +40,7 @@
     - [x] Sentry (SaaS)
         - [ ] Sentry (Self-Hosted)
     - [ ] Celery or other distributed task system
+    - [ ] Redis cache
     - [ ] Swagger
     - [ ] Weblate/Traduora (Self-Hosted)
     - [ ] Fossa

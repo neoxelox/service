@@ -13,7 +13,7 @@ services:
             - database:/data/postgres
         ports:
             - "5432:5432"
-        restart: unless-stopped
+        restart: unless-stopped # Change for 'always' in production environment
     
     # Use this ONLY in staging environment
     pgadmin:
@@ -30,6 +30,7 @@ services:
             - mst-database:postgres
         ports:
             - "5433:80"
+        restart: unless-stopped # Change for 'always' in production environment
 
     metabase:
         container_name: metabase_container
@@ -44,6 +45,7 @@ services:
             - mst-database:postgres
         ports:
             - "4000:3000"
+        restart: unless-stopped # Change for 'always' in production environment
 
     mst:
         build:
@@ -83,6 +85,7 @@ services:
             - jaeger:jaeger
         ports:
             - "8000:8000"
+        restart: unless-stopped # Change for 'always' in production environment
     
     prometheus:
         container_name: prometheus_container
@@ -95,6 +98,7 @@ services:
             - mst:mst
         ports:
             - "9090:9090"
+        restart: unless-stopped # Change for 'always' in production environment
 
     jaeger:
         container_name: jaeger_container
@@ -109,6 +113,7 @@ services:
         ports:
             - "6831:6831/udp"
             - "16686:16686"
+        restart: unless-stopped # Change for 'always' in production environment
 
     grafana:
         container_name: grafana_container
@@ -123,6 +128,7 @@ services:
             - mst-database:postgres
         ports:
             - "3000:3000"
+        restart: unless-stopped # Change for 'always' in production environment
 
 volumes:
     init.sql:
