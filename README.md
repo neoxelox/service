@@ -51,7 +51,10 @@
     - [ ] Terraform plan
 
 ## Setup
-- Install [`golang 1.14.2 >=`](https://golang.org/dl/)
+- Install:
+    - [`golang 1.14.2 >=`](https://golang.org/dl/)
+    - [`docker 19.03.6 >=`](https://docs.docker.com/get-docker/)
+    - [`docker-compose 1.21.0 >=`](https://docs.docker.com/compose/install/)
 - In the project root directory run `make build` and then `make start`
 
 See `makefile` for further commands.
@@ -62,6 +65,7 @@ The project uses a subset of the Clean Architecture, composed of 3 different lay
 Use Case handlers are created at launch time, meaning that only a single DB connection pool is created. It will be used to create all kind of repositories, that will then be injected to each **Use Case**. That means that **Repositories** and **Handlers** must be thread safe to attend different requests.
 
 ## Structure
+Follows the [Standard Go Project Layout](https://github.com/golang-standards/project-layout).
 ```
 .
 ├── assets
@@ -117,3 +121,6 @@ Public library code that other external projects could import.
 
 ### `/scripts`
 Scripts to perform various build, install, analysis, etc operations. These scripts keep the root level Makefile small and simple.
+
+## License
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT) - read the [LICENSE](LICENSE) file for details.
