@@ -20,6 +20,11 @@ type Services struct {
 
 // NewServices creates a new Services instance
 func NewServices(instance *echo.Echo, configuration Configuration) (*Services, error) {
+	prometheusClient := prometheus.NewPrometheus(configuration.App.Name, nil)
+	prometheusClient.Use(instance)
+
+	jaegerClient := jaegertracing.New(instance, nil)
+
 	err := sentry.Init(sentry.ClientOptions{
 		Dsn:        configuration.Sentry.Dsn,
 		Debug:      configuration.App.Debug,
@@ -33,11 +38,6 @@ func NewServices(instance *echo.Echo, configuration Configuration) (*Services, e
 		Repanic: true,
 	})
 	instance.Use(sentryMiddleware) // https://docs.sentry.io/platforms/go/echo/#usage
-
-	prometheusClient := prometheus.NewPrometheus(configuration.App.Name, nil)
-	prometheusClient.Use(instance)
-
-	jaegerClient := jaegertracing.New(instance, nil)
 
 	return &Services{
 		Sentry:     sentry.CurrentHub().Client(),

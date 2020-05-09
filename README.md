@@ -55,7 +55,13 @@
     - [`golang 1.14.2 >=`](https://golang.org/dl/)
     - [`docker 19.03.6 >=`](https://docs.docker.com/get-docker/)
     - [`docker-compose 1.21.0 >=`](https://docs.docker.com/compose/install/)
-- In the project root directory run `make build` and then `make start`
+- In the project root directory:
+    - Create an `.env` file with:
+        - `DATABASE_USER`
+        - `DATABASE_PASSWORD`
+        - `SENTRY_DSN` (Optional)
+        - `NEWRELIC_LICENSEKEY` (Optional)
+    - Run `make build` and then `make start`
 
 See `makefile` for further commands.
 
