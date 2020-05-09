@@ -18,4 +18,4 @@
 notes.md
 
 # Secrets
-.env
+*.env

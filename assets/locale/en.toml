@@ -1,0 +1,4 @@
+[Welcome]
+description = "Root endpoint response"
+one = "Microservice-Template is working with {{.Goroutines}} Goroutine active!"
+other = "Microservice-Template is working with {{.Goroutines}} Goroutines active!"

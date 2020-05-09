@@ -1,11 +1,11 @@
 # microservice-template
-**Complete Over-engineered Golang Microservice Template**
+![Gophers](./assets/images/gophers.png "Gophers") **Complete Over-engineered Golang Microservice Template**
 
 ## Features
 - Golang Server
     - [x] Static compiling
     - [ ] Clean Architecture
-    - [ ] Golang standard layout
+    - [x] Golang standard layout
     - [ ] Complete Mock testing
     - [x] Makefile
     - [x] Styling checks with GolangCI-Lint
@@ -16,9 +16,10 @@
         - [ ] Embeded migrations with go-bindata
     - [x] Panic-Recovery
     - [x] Logrus
+    - [ ] Custom errors
     - [ ] Documentation (Grindsome Docc)
     - [ ] Automatic Locales Internationalization
-    - [ ] Graceful shutdown
+    - [x] Graceful shutdown
     - [ ] Casbin RBAC Auth Controller
     - [ ] Load tester as Vegeta
 - Security
@@ -49,23 +50,70 @@
     - [ ] Codecov or similar
     - [ ] Terraform plan
 
+## Setup
+- Install [`golang 1.14.2 >=`](https://golang.org/dl/)
+- In the project root directory run `make build` and then `make start`
+
+See `makefile` for further commands.
+
+## Architecture
+The project uses a subset of the Clean Architecture, composed of 3 different layers: **Dto**->**Entity**->**Model**, which are disjoint and the dependencies are unidirectional towards the database domain.
+
+Use Case handlers are created at launch time, meaning that only a single DB connection pool is created. It will be used to create all kind of repositories, that will then be injected to each **Use Case**. That means that **Repositories** and **Handlers** must be thread safe to attend different requests.
+
 ## Structure
 ```
 .
-├── config
-├── connector
-│   └── fortune
-├── database
-│   ├── migrations
-│   └── repository
-│       └── cookie
-├── dependencies
-├── logic
-│   └── entity
-│       └── cookie
-├── server
-│   ├── handler
+├── assets
+│   ├── images
+│   └── locale
+├── build
+├── cmd
+│   └── mst
+├── configs
+├── deploy
+├── init
+├── internal
+│   ├── database
+│   │   └── migrations
+│   ├── entity
 │   │   └── cookie
-│   └── middleware
-└── utils
+│   ├── errors
+│   ├── handler
+│   │   ├── cookie
+│   │   └── health
+│   ├── middleware
+│   ├── repository
+│   │   └── cookie
+│   └── server
+├── pkg
+│   └── fortune
+└── scripts
 ```
+
+### `/assets`
+Static files to be served by the application.
+
+### `/build`
+Packaging and Continuous Integration cofigurations.
+
+### `/cmd`
+Main entrypoint for the microservice. Just a small `main` functions that invokes code from `/internal` and `/pkg` and starts the application.
+
+### `/configs`
+Configuration file templates.
+
+### `/deploy`
+System or container orchestration and Continuous Deployment configurations
+
+### `/init`
+System init configuration for once or everytime.
+
+### `/internal`
+Private application code that other projects won't import.
+
+### `/pkg`
+Public library code that other external projects could import.
+
+### `/scripts`
+Scripts to perform various build, install, analysis, etc operations. These scripts keep the root level Makefile small and simple.

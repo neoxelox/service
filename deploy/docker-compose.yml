@@ -1,0 +1,147 @@
+version: '3'
+services:
+    mst-database:
+        container_name: postgres_container
+        image: postgres:alpine
+        environment:
+            POSTGRES_DB: postgres
+            POSTGRES_USER: ${DATABASE_USER}
+            POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+            PGDATA: /data/postgres
+        volumes:
+            - ./init/init.sql:/docker-entrypoint-initdb.d/init.sql
+            - database:/data/postgres
+        ports:
+            - "5432:5432"
+        restart: unless-stopped # Change for 'always' in production environment
+    
+    # Use this ONLY in staging environment
+    pgadmin:
+        container_name: pgadmin_container
+        image: dpage/pgadmin4
+        environment:
+            PGADMIN_DEFAULT_EMAIL: dbadmin@mst.com
+            PGADMIN_DEFAULT_PASSWORD: dbadmin
+        volumes:
+            - pgadmin:/root/.pgadmin
+        depends_on:
+            - mst-database
+        links:
+            - mst-database:postgres
+        ports:
+            - "5433:80"
+        restart: unless-stopped # Change for 'always' in production environment
+
+    metabase:
+        container_name: metabase_container
+        image: metabase/metabase
+        environment:
+            MB_DB_FILE: /metabase-data/metabase.db
+        volumes:
+            - metabase:/metabase-data
+        depends_on:
+            - mst-database
+        links:
+            - mst-database:postgres
+        ports:
+            - "4000:3000"
+        restart: unless-stopped # Change for 'always' in production environment
+
+    mst:
+        build:
+            context: ./
+            dockerfile: ./build/Dockerfile
+        container_name: mst_container
+        image: mst
+        environment:
+            APP_PORT: 8000
+            APP_DEBUG: 'true'
+            APP_NAME: mst
+            APP_RELEASE: v1
+            DATABASE_HOST: postgres
+            DATABASE_PORT: 5432
+            DATABASE_USER: ${DATABASE_USER}
+            DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+            DATABASE_NAME: mst
+            JAEGER_AGENT_HOST: jaeger
+            JAEGER_AGENT_PORT: 6831
+            JAEGER_SERVICE_NAME: mst
+            SENTRY_DSN: ${SENTRY_DSN}
+            NEWRELIC_LICENSEKEY: ${NEWRELIC_LICENSEKEY}
+        # Waiting for Database
+        command: >
+            /bin/ash -c "
+              while ! nc -z postgres 5432;
+              do
+                echo sleeping;
+                sleep 1;
+              done;
+              /app/mst
+            "
+        depends_on:
+            - mst-database
+        links:
+            - mst-database:postgres
+            - jaeger:jaeger
+        ports:
+            - "8000:8000"
+        restart: unless-stopped # Change for 'always' in production environment
+    
+    prometheus:
+        container_name: prometheus_container
+        image: prom/prometheus
+        volumes:
+            - ./configs/prometheus.yml:/etc/prometheus/prometheus.yml
+        depends_on:
+            - mst
+        links:
+            - mst:mst
+        ports:
+            - "9090:9090"
+        restart: unless-stopped # Change for 'always' in production environment
+
+    jaeger:
+        container_name: jaeger_container
+        image: jaegertracing/all-in-one
+        environment:
+            SPAN_STORAGE_TYPE: badger
+            BADGER_EPHEMERAL: 'false'
+            BADGER_DIRECTORY_VALUE: /badger/data
+            BADGER_DIRECTORY_KEY: /badger/key
+        volumes:
+            - jaeger:/badger
+        ports:
+            - "6831:6831/udp"
+            - "16686:16686"
+        restart: unless-stopped # Change for 'always' in production environment
+
+    grafana:
+        container_name: grafana_container
+        image: grafana/grafana
+        volumes:
+            - grafana:/var/lib/grafana
+        depends_on:
+            - prometheus
+            - mst-database
+        links:
+            - prometheus:prometheus
+            - mst-database:postgres
+        ports:
+            - "3000:3000"
+        restart: unless-stopped # Change for 'always' in production environment
+
+volumes:
+    init.sql:
+        driver: local
+    database:
+        driver: local
+    pgadmin:
+        driver: local
+    metabase:
+        driver: local
+    prometheus.yml:
+        driver: local
+    jaeger:
+        driver: local
+    grafana:
+        driver: local

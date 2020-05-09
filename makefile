@@ -1,28 +1,34 @@
 PACKAGES ?= ./...
+COMPOSER ?= -f ./deploy/docker-compose.yml --project-directory . -p mst
 FLAGS ?=
 DEVTOOLS ?= $(shell $(GOPATH)/bin/golangci-lint --version 2>/dev/null | grep 1.24)
 
+
 start:
-	docker-compose up -d
+	docker-compose $(COMPOSER) up -d
 	docker logs -f mst_container
 .SILENT: start
 
 stop:
-	docker-compose stop
+	docker-compose $(COMPOSER) stop
 	docker stop $(shell docker ps -a -q)
 .SILENT: stop
 
 build:
-	docker-compose up -d --build
-	docker logs -f mst_container
+	docker build -t mst:latest -f ./build/Dockerfile .
+.PHONY: build
 .SILENT: build
+
+restart: build start
+.SILENT: restart
 
 remove: stop
 	docker rm $(shell docker ps -a -q)
 .SILENT: remove
 
 prune: stop remove
-	docker system prune --force
+	docker system prune --force -a
+	docker volume prune --force
 .SILENT: prune
 
 test:
@@ -39,7 +45,7 @@ cover:
 .SILENT: cover
 
 lint: devtools
-	$(GOPATH)/bin/golangci-lint run $(PACKAGES)
+	$(GOPATH)/bin/golangci-lint run $(PACKAGES) -c ./configs/golangci.yml
 .SILENT: lint
 
 devtools:
