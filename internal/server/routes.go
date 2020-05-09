@@ -7,8 +7,8 @@ import (
 	"github.com/neoxelox/microservice-template/internal/middleware"
 )
 
-// SetupRoutes assigns middlewares, services and handlers to the application routes
-func SetupRoutes(instance *echo.Echo, handlers Handlers, services Services) {
+// SetupRoutes assigns middlewares and handlers to the application routes
+func SetupRoutes(instance *echo.Echo, handlers Handlers) {
 	instance.Use(emiddleware.Recover())
 	instance.Use(middleware.Logrus())
 

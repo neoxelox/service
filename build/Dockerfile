@@ -5,9 +5,9 @@ ENV CGO_ENABLED=0 \
     GOOS=linux \
     GOARCH=amd64
 
-WORKDIR /build
+WORKDIR /src
 
-COPY . /build
+COPY . /src
 
 RUN go build -a -tags netgo -ldflags '-w -extldflags "-static"' -o mst ./cmd/mst/main.go
 
@@ -17,8 +17,13 @@ RUN apk add ca-certificates
 
 WORKDIR /app
 
-COPY ./assets /assets
-COPY --from=builder /build/mst /app
+# Copy source files for stacktrace mapping
+COPY cmd /src/cmd
+COPY internal /src/internal
+COPY pkg /src/pkg
+
+COPY assets /assets
+COPY --from=builder /src/mst /app
 
 # App
 EXPOSE 8000

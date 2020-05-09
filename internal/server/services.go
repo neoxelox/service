@@ -26,10 +26,11 @@ func NewServices(instance *echo.Echo, configuration Configuration) (*Services, e
 	jaegerClient := jaegertracing.New(instance, nil)
 
 	err := sentry.Init(sentry.ClientOptions{
-		Dsn:        configuration.Sentry.Dsn,
-		Debug:      configuration.App.Debug,
-		ServerName: configuration.App.Name,
-		Release:    configuration.App.Release,
+		Dsn:              configuration.Sentry.Dsn,
+		Debug:            configuration.App.Debug,
+		ServerName:       configuration.App.Name,
+		Release:          configuration.App.Release,
+		AttachStacktrace: true,
 	})
 	if err != nil {
 		return nil, errors.Wrap(err, "Unable to initialize Sentry client!")

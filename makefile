@@ -19,7 +19,7 @@ build:
 .PHONY: build
 .SILENT: build
 
-restart: build start
+restart: stop build start
 .SILENT: restart
 
 remove: stop

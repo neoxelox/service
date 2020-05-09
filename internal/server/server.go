@@ -36,12 +36,12 @@ func NewServer(e *echo.Echo) *Server {
 		panic(errors.Wrap(err, "Unable to initialize the server, handler error!"))
 	}
 
+	SetupRoutes(e, *handlers)
+
 	services, err := NewServices(e, *configuration)
 	if err != nil {
-		log.Println("Unable to initialize the services, ignoring...")
+		log.Println("Unable to initialize external services, ignoring...")
 	}
-
-	SetupRoutes(e, *handlers, *services)
 
 	return &Server{
 		Instance:      e,
