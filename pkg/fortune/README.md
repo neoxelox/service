@@ -1,0 +1,1 @@
+Package fortune is working!
