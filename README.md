@@ -114,7 +114,7 @@ Main entrypoint for the microservice. Just a small `main` functions that invokes
 Configuration file templates.
 
 ### `/deploy`
-System or container orchestration and Continuous Deployment configurations
+System or container orchestration and Continuous Deployment configurations.
 
 ### `/init`
 System init configuration for once or everytime.
