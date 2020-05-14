@@ -21,7 +21,7 @@ func main() {
 	signal.Notify(quit, os.Interrupt)
 	<-quit
 
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 	defer cancel()
 	if err := app.Shutdown(ctx); err != nil {
 		app.Instance.Logger.Fatal(err)

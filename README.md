@@ -49,6 +49,7 @@
     - [ ] Nginx/Traefik for load balancing
     - [ ] Codecov or similar
     - [ ] Terraform plan
+    - [ ] Liveness, Readiness and Startup probes
 
 ## Setup
 - Install:
@@ -64,11 +65,14 @@
     - Run `make build` and then `make start`
 
 See `makefile` for further commands.
+**Head to the [documentation](https://google.com) for a full explanation of the project.**
 
 ## Architecture
 The project uses a subset of the Clean Architecture, composed of 3 different layers: **Dto**->**Entity**->**Model**, which are disjoint and the dependencies are unidirectional towards the database domain.
 
 Use Case handlers are created at launch time, meaning that only a single DB connection pool is created. It will be used to create all kind of repositories, that will then be injected to each **Use Case**. That means that **Repositories** and **Handlers** must be thread safe to attend different requests.
+
+Regarding to tests, you should emphasize on unit tests in the Entity domain, and integration tests in the Dto layer. Repository tests are welcomed, but are less "compulsory". Mocks must be created for every entity methods, handler or repository, so that your tests only focus on the package code.
 
 ## Structure
 Follows the [Standard Go Project Layout](https://github.com/golang-standards/project-layout).
@@ -82,6 +86,7 @@ Follows the [Standard Go Project Layout](https://github.com/golang-standards/pro
 │   └── mst
 ├── configs
 ├── deploy
+├── docs
 ├── init
 ├── internal
 │   ├── database
@@ -116,6 +121,9 @@ Configuration file templates.
 ### `/deploy`
 System or container orchestration and Continuous Deployment configurations.
 
+### `/docs`
+Design and user documents (in addition to godoc generated documentation).
+
 ### `/init`
 System init configuration for once or everytime.
 
@@ -123,7 +131,17 @@ System init configuration for once or everytime.
 Private application code that other projects won't import.
 
 ### `/pkg`
-Public library code that other external projects could import.
+Public library code that other external projects could import. All packages inside this folder should be able to be imported in a go file with `go get yourRepository/pkg/yourPkg`. Each package needs:
+
+- `README.md`
+- `LICENSE`
+- `go.mod`
+- `yourPkg.go` ( use an `init()` function to intialize the package )
+- `test.go`
+- `mock.go` ( using the [testify](github.com/stretchr/testify) package is a good option for making mocks )
+- `doc.go` ( optional, for [GoDoc](https://godoc.org) )
+
+Notice that your public package **cannot** import code from your private code, thus Go won't be able to compile code imported from a `/internal` directory.
 
 ### `/scripts`
 Scripts to perform various build, install, analysis, etc operations. These scripts keep the root level Makefile small and simple.

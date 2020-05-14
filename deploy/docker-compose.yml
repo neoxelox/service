@@ -57,7 +57,8 @@ services:
             APP_PORT: 8000
             APP_DEBUG: 'true'
             APP_NAME: mst
-            APP_RELEASE: v1
+            APP_VERSION: v1
+            APP_RELEASE: commitSHA
             DATABASE_HOST: postgres
             DATABASE_PORT: 5432
             DATABASE_USER: ${DATABASE_USER}

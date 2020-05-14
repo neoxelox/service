@@ -11,6 +11,7 @@ type (
 		Port    int
 		Debug   bool
 		Name    string
+		Version string
 		Release string
 	}
 
@@ -47,7 +48,8 @@ func NewConfiguration() (*Configuration, error) {
 			Port:    getEnvAsInt("APP_PORT", 8000),
 			Debug:   getEnvAsBool("APP_DEBUG", false),
 			Name:    getEnvAsString("APP_NAME", "mst"),
-			Release: getEnvAsString("APP_RELEASE", "v1"),
+			Version: getEnvAsString("APP_VERSION", "v1"),
+			Release: getEnvAsString("APP_RELEASE", "master"),
 		},
 
 		Database: &_database{

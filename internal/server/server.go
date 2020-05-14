@@ -63,11 +63,17 @@ func (s *Server) Run() {
 
 // Shutdown stops the server
 func (s *Server) Shutdown(ctx context.Context) error {
+	deadline := time.Second * 5
+	if ctxDeadline, ok := ctx.Deadline(); ok {
+		deadline = ctxDeadline.Sub(time.Now())
+	}
+
 	err := s.Dependencies.Database.Close(ctx)
 	if err != nil {
 		return errors.Wrap(err, "Unable to close the connection with the database!")
 	}
-	s.Services.Sentry.Flush(time.Second * 5)
+
+	s.Services.Sentry.Flush(deadline)
 	s.Services.Jaeger.Close()
 
 	return s.Instance.Shutdown(ctx)
