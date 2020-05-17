@@ -2,7 +2,7 @@ version: '3'
 services:
     mst-database:
         container_name: postgres_container
-        image: postgres:alpine
+        image: postgres:alpine # Fix version in production environment
         environment:
             POSTGRES_DB: postgres
             POSTGRES_USER: ${DATABASE_USER}
@@ -34,7 +34,7 @@ services:
 
     metabase:
         container_name: metabase_container
-        image: metabase/metabase
+        image: metabase/metabase # Fix version in production environment
         environment:
             MB_DB_FILE: /metabase-data/metabase.db
         volumes:
@@ -90,7 +90,7 @@ services:
     
     prometheus:
         container_name: prometheus_container
-        image: prom/prometheus
+        image: prom/prometheus # Fix version in production environment
         volumes:
             - ./configs/prometheus.yml:/etc/prometheus/prometheus.yml
         depends_on:
@@ -103,7 +103,7 @@ services:
 
     jaeger:
         container_name: jaeger_container
-        image: jaegertracing/all-in-one
+        image: jaegertracing/all-in-one # Fix version in production environment
         environment:
             SPAN_STORAGE_TYPE: badger
             BADGER_EPHEMERAL: 'false'
@@ -118,7 +118,7 @@ services:
 
     grafana:
         container_name: grafana_container
-        image: grafana/grafana
+        image: grafana/grafana # Fix version in production environment
         volumes:
             - grafana:/var/lib/grafana
         depends_on:
@@ -133,16 +133,9 @@ services:
 
 volumes:
     init.sql:
-        driver: local
     database:
-        driver: local
     pgadmin:
-        driver: local
     metabase:
-        driver: local
     prometheus.yml:
-        driver: local
     jaeger:
-        driver: local
     grafana:
-        driver: local

@@ -7,6 +7,11 @@ ENV CGO_ENABLED=0 \
 
 WORKDIR /src
 
+# Download dependencies before build in order to cache them
+COPY go.mod go.sum /src/
+
+RUN go mod download
+
 COPY . /src
 
 RUN go build -a -tags netgo -ldflags '-w -extldflags "-static"' -o mst ./cmd/mst/main.go

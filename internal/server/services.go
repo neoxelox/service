@@ -33,7 +33,7 @@ func NewServices(instance *echo.Echo, configuration Configuration) (*Services, e
 		AttachStacktrace: true,
 	})
 	if err != nil {
-		return nil, errors.Wrap(err, "Unable to initialize Sentry client!")
+		err = errors.Wrap(err, "Unable to initialize Sentry client!")
 	}
 	sentryMiddleware := esentry.New(esentry.Options{
 		Repanic: true,
@@ -44,5 +44,5 @@ func NewServices(instance *echo.Echo, configuration Configuration) (*Services, e
 		Sentry:     sentry.CurrentHub().Client(),
 		Prometheus: prometheusClient,
 		Jaeger:     jaegerClient,
-	}, nil
+	}, err
 }
