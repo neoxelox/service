@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 jobs:
-  integration:
+  deployment:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
