@@ -1,0 +1,3 @@
+DROP INDEX CONCURRENTLY IF EXISTS "example_name_idx";
+
+DROP TABLE IF EXISTS "example";

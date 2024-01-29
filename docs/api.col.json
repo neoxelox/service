@@ -1,0 +1,156 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Example",
+    "dateExported": "2024-01-29T01:04:50.004Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "a532c672-4e32-4a94-a0e6-e89addc5bb80",
+            "colId": "29bc6d58-a4c7-42a9-a3f0-2dd1234dfe80",
+            "containerId": "",
+            "name": "Get Health (Server)",
+            "url": "{{BASE_URL}}/health",
+            "method": "GET",
+            "sortNum": 5000,
+            "created": "2024-01-27T10:22:40.589Z",
+            "modified": "2024-01-29T01:00:36.281Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "cb4d8db8-f758-47f0-af92-ef54a6152e7d",
+            "colId": "29bc6d58-a4c7-42a9-a3f0-2dd1234dfe80",
+            "containerId": "",
+            "name": "Get Health (Worker)",
+            "url": "{{BASE_WORKER_URL}}/health",
+            "method": "GET",
+            "sortNum": 6250,
+            "created": "2024-01-29T00:59:49.768Z",
+            "modified": "2024-01-29T01:00:48.075Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "a62dff23-c6cb-4afe-bf80-a6900b40843a",
+            "colId": "29bc6d58-a4c7-42a9-a3f0-2dd1234dfe80",
+            "containerId": "",
+            "name": "Get Example (HTML)",
+            "url": "{{BASE_URL}}/example",
+            "method": "GET",
+            "sortNum": 7500,
+            "created": "2024-01-27T10:59:21.202Z",
+            "modified": "2024-01-27T11:00:00.147Z",
+            "headers": [
+                {
+                    "name": "Accept-Language",
+                    "value": "en"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "58dba50d-ad3b-4c75-b9ee-f7bbd6d19daf",
+            "colId": "29bc6d58-a4c7-42a9-a3f0-2dd1234dfe80",
+            "containerId": "",
+            "name": "Get Asset",
+            "url": "{{BASE_URL}}/assets/styles/example.css",
+            "method": "GET",
+            "sortNum": 8750,
+            "created": "2024-01-27T11:01:03.304Z",
+            "modified": "2024-01-27T11:01:23.045Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "44af1cde-e166-490d-87a6-d0e1e168c878",
+            "colId": "29bc6d58-a4c7-42a9-a3f0-2dd1234dfe80",
+            "containerId": "",
+            "name": "Get File",
+            "url": "{{BASE_URL}}/file/cmqelpe7sq1ci3j45bv0.svg",
+            "method": "GET",
+            "sortNum": 9375,
+            "created": "2024-01-27T11:35:15.862Z",
+            "modified": "2024-01-27T11:37:34.491Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "648bfba1-7e67-4dfb-9966-44ad61e0bde8",
+            "colId": "29bc6d58-a4c7-42a9-a3f0-2dd1234dfe80",
+            "containerId": "",
+            "name": "Post File",
+            "url": "{{BASE_URL}}/file",
+            "method": "POST",
+            "sortNum": 9687.5,
+            "created": "2024-01-27T11:36:13.273Z",
+            "modified": "2024-01-27T11:37:09.596Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [],
+                "files": [
+                    {
+                        "name": "file",
+                        "value": "/Users/alex/Drive/Projectos/service/assets/media/example.svg"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "32c82fca-04f8-4163-9289-546c9dcbb9b3",
+            "colId": "29bc6d58-a4c7-42a9-a3f0-2dd1234dfe80",
+            "containerId": "",
+            "name": "Get Example (JSON)",
+            "url": "{{BASE_URL}}/example/cmqeocu7sq1ci6kh1hp0",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-01-20T19:37:07.851Z",
+            "modified": "2024-01-27T11:42:49.768Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "a9a8a100-92ec-4761-8d4b-baf780934609",
+            "colId": "29bc6d58-a4c7-42a9-a3f0-2dd1234dfe80",
+            "containerId": "",
+            "name": "Create Example",
+            "url": "{{BASE_URL}}/example",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-01-20T19:37:47.071Z",
+            "modified": "2024-01-25T16:06:24.231Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Alex\",\n\t\"age\": 23,\n\t\"role\": \"ADMIN\",\n\t\"wants_newsletter\": true\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "4246b43b-60b2-4e39-a9a1-621f384ae25f",
+            "colId": "29bc6d58-a4c7-42a9-a3f0-2dd1234dfe80",
+            "containerId": "",
+            "name": "Delete Example",
+            "url": "{{BASE_URL}}/example/cmp8e05592usjuocbkb0",
+            "method": "DELETE",
+            "sortNum": 30000,
+            "created": "2024-01-20T20:04:48.662Z",
+            "modified": "2024-01-25T16:06:52.807Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        }
+    ]
+}

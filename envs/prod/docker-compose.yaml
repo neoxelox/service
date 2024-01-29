@@ -1,0 +1,153 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:16-alpine
+    env_file: ./.env
+    expose:
+      - "5432"
+    volumes:
+      - ./postgres-init.sh:/docker-entrypoint-initdb.d/postgres-init.sh
+      - postgres:/var/lib/postgres/data
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    env_file: ./.env
+    command: "redis-server --requirepass ${REDIS_PASSWORD} --maxmemory ${REDIS_MAXMEMORY} --maxmemory-policy ${REDIS_MAXMEMORY_POLICY}"
+    expose:
+      - "6379"
+    volumes:
+      - redis:/var/lib/redis/data
+    restart: unless-stopped
+
+  tunnel-ext:
+    image: cloudflare/cloudflared:2024.1.3
+    env_file: ./.env
+    command: "tunnel --no-autoupdate --origincert /etc/cloudflared/certs/cert.pem run ${CLOUDFLARE_TUNNEL_EXT_NAME}"
+    depends_on:
+      - api
+    links:
+      - api:api
+    volumes:
+      - ./cloudflared-ext.yaml:/etc/cloudflared/config.yaml
+      - ./certs/cloudflared:/etc/cloudflared/certs
+    restart: unless-stopped
+
+  tunnel-int:
+    image: cloudflare/cloudflared:2024.1.3
+    env_file: ./.env
+    command: "tunnel --no-autoupdate --origincert /etc/cloudflared/certs/cert.pem run ${CLOUDFLARE_TUNNEL_INT_NAME}"
+    depends_on:
+      - metabase
+      - asynqmon
+    links:
+      - metabase:metabase
+      - asynqmon:asynqmon
+    volumes:
+      - ./cloudflared-int.yaml:/etc/cloudflared/config.yaml
+      - ./certs/cloudflared:/etc/cloudflared/certs
+    restart: unless-stopped
+
+  api:
+    image: service-api:1.0.0
+    env_file: ./.env
+    depends_on:
+      - postgres
+      - redis
+      - worker
+    links:
+      - postgres:postgres
+      - redis:redis
+      - worker:worker
+    expose:
+      - "1111"
+    volumes:
+      - ./certs/service:/app/certs
+      - api:/app/files
+    restart: unless-stopped
+
+  worker:
+    image: service-worker:1.0.0
+    env_file: ./.env
+    depends_on:
+      - postgres
+      - redis
+    links:
+      - postgres:postgres
+      - redis:redis
+    expose:
+      - "1112"
+    volumes:
+      - ./certs/service:/app/certs
+      - worker:/app/files
+    restart: unless-stopped
+
+  cli:
+    image: service-cli:1.0.0
+    env_file: ./.env
+    depends_on:
+      - postgres
+      - redis
+    links:
+      - postgres:postgres
+      - redis:redis
+    volumes:
+      - ./certs/service:/app/certs
+    restart: unless-stopped
+
+  watchtower:
+    image: containrrr/watchtower:1.7.1
+    env_file: ./.env
+    command: "--interval=${WATCHTOWER_INTERVAL} --cleanup --no-startup-message ${WATCHTOWER_TARGETS}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./certs/docker/config.json:/config.json
+    restart: unless-stopped
+
+  kontrol:
+    image: neoxelox/kontrol:1.0.0
+    env_file: ./.env
+    depends_on:
+      - api
+      - worker
+    links:
+      - api:api
+      - worker:worker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./kontrol.js:/kontrol/config.js
+    restart: unless-stopped
+
+  metabase:
+    image: metabase/metabase:v0.47.12
+    env_file: ./.env
+    depends_on:
+      - postgres
+      - redis
+    links:
+      - postgres:postgres
+      - redis:redis
+    expose:
+      - "2222"
+    volumes:
+      - metabase:/metabase.db
+    restart: unless-stopped
+
+  asynqmon:
+    image: hibiken/asynqmon:0.7.2
+    env_file: ./.env
+    command: "--port=${ASYNQMON_PORT} --redis-addr=${SERVICE_CACHE_HOST}:${SERVICE_CACHE_PORT} --redis-insecure-tls=${SERVICE_CACHE_SSLMODE} --redis-password=${SERVICE_CACHE_PASSWORD}"
+    depends_on:
+      - redis
+    links:
+      - redis:redis
+    expose:
+      - "3333"
+    restart: unless-stopped
+
+volumes:
+  postgres:
+  redis:
+  api:
+  worker:
+  metabase:

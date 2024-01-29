@@ -1,0 +1,58 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:16-alpine
+    env_file: ./.env
+    expose:
+      - "5432"
+    volumes:
+      - ./postgres-init.sh:/docker-entrypoint-initdb.d/postgres-init.sh
+
+  redis:
+    image: redis:7-alpine
+    env_file: ./.env
+    command: "redis-server --requirepass ${REDIS_PASSWORD} --maxmemory ${REDIS_MAXMEMORY} --maxmemory-policy ${REDIS_MAXMEMORY_POLICY}"
+    expose:
+      - "6379"
+
+  api:
+    build:
+      context: ../../
+      dockerfile: ./envs/ci/api.Dockerfile
+    env_file: ./.env
+    depends_on:
+      - postgres
+      - redis
+      - worker
+    links:
+      - postgres:postgres
+      - redis:redis
+      - worker:worker
+    expose:
+      - "1111"
+
+  worker:
+    build:
+      context: ../../
+      dockerfile: ./envs/ci/worker.Dockerfile
+    env_file: ./.env
+    depends_on:
+      - postgres
+      - redis
+    links:
+      - postgres:postgres
+      - redis:redis
+    expose:
+      - "1112"
+
+  cli:
+    build:
+      context: ../../
+      dockerfile: ./envs/ci/cli.Dockerfile
+    env_file: ./.env
+    depends_on:
+      - postgres
+      - redis
+    links:
+      - postgres:postgres
+      - redis:redis

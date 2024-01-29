@@ -1,0 +1,397 @@
+# Options for analysis running.
+run:
+  # Timeout for analysis, e.g. 30s, 5m.
+  timeout: 5m
+
+  # Which dirs to skip: issues from them won't be reported.
+  # Can use regexp here: `generated.*`, regexp is applied on full path.
+  # Default dirs are skipped independently of this option's value (see skip-dirs-use-default).
+  # "/" will be replaced by current OS file path separator to properly work on Windows.
+  # skip-dirs:
+  #   - example
+
+  # Enables skipping of directories:
+  # - vendor$, third_party$, testdata$, examples$, Godeps$, builtin$
+  skip-dirs-use-default: True
+
+  # Which files to skip: they will be analyzed, but issues from them won't be reported.
+  # "/" will be replaced by current OS file path separator to properly work on Windows.
+  # skip-files:
+  #   - example.go
+
+  # If set we pass it to "go list -mod={option}". From "go help modules":
+  # If invoked with -mod=readonly, the go command is disallowed from the implicit
+  # automatic updating of go.mod described above. Instead, it fails when any changes
+  # to go.mod are needed. This setting is most useful to check that go.mod does
+  # not need updates, such as in a continuous integration and testing system.
+  # If invoked with -mod=vendor, the go command assumes that the vendor
+  # directory holds the correct copies of dependencies and ignores
+  # the dependency descriptions in go.mod.
+  # Allowed values: readonly|vendor|mod
+  modules-download-mode: readonly
+
+# Options for output configuration.
+output:
+  # Format: colored-line-number|line-number|json|tab|checkstyle|code-climate|junit-xml|github-actions
+  # Multiple can be specified by separating them by comma, output can be provided
+  # for each of them by separating format name and path by colon symbol.
+  # Output path can be either `stdout`, `stderr` or path to the file to write to.
+  # Example: "checkstyle:report.json,colored-line-number"
+  format: colored-line-number
+
+  # Print lines of code with issue.
+  print-issued-lines: true
+
+  # Print linter name in the end of issue text.
+  print-linter-name: true
+
+  # Make issues output unique by line.
+  uniq-by-line: true
+
+  # Sort results by: filepath, line and column.
+  sort-results: true
+
+# Options for specific linters.
+linters-settings:
+  # Checks function and package cyclomatic complexity.
+  cyclop:
+    # The maximal code complexity to report.
+    max-complexity: 30
+
+  dogsled:
+    # Checks assignments with too many blank identifiers.
+    max-blank-identifiers: 3
+
+  # Checks for duplicated code.
+  dupl:
+    # Tokens count to trigger issue.
+    threshold: 150
+
+  # Checks for unhandled errors.
+  errcheck:
+    # Report about not checking of errors in type assertions: `a := b.(MyStruct)`.
+    check-type-assertions: true
+
+    # report about assignment of errors to blank identifier: `num, _ := strconv.Atoi(numStr)`.
+    check-blank: false
+
+  # Checks types passed to the json encoding functions.
+  errchkjson:
+    # Issue on struct encoding that doesn't have exported fields.
+    report-no-exported: true
+
+  # Checks for forbidden identifiers.
+  forbidigo:
+    # Forbid the following identifiers (list of regexp).
+    forbid:
+      - 'fmt\.Print.*'
+
+  # Checks the cognitive complexity of functions.
+  gocognit:
+    # Minimal code complexity to report
+    min-complexity: 30
+
+  # Checks for repeated strings that could be replaced by a constant.
+  goconst:
+    # Minimal length of string constant.
+    min-len: 3
+    # Minimum occurrences of constant string count to trigger issue.
+    min-occurrences: 3
+    # Search also for duplicated numbers.
+    numbers: true
+
+  # Checks the cyclomatic complexity of functions.
+  gocyclo:
+    # Minimal code complexity to report.
+    min-complexity: 30
+
+  # Check if comments end in a period.
+  godot:
+    # Comments to be checked: `declarations`, `toplevel`, or `all`.
+    scope: all
+    # Check that each sentence ends with a period.
+    period: false
+    # Check that each sentence starts with a capital letter.
+    capital: false
+
+  # Checks whether code was gofumpt-ed.
+  gofumpt:
+    # Module path which contains the source code being formatted.
+    module-path: service
+
+    # Choose whether to use the extra rules.
+    extra-rules: true
+
+  # Checks whether the imports are correctly sorted.
+  goimports:
+    # Put imports beginning with prefix after 3rd-party packages.
+    # It's a comma-separated list of prefixes.
+    local-prefixes: service
+
+  # Checks for security problems.
+  gosec:
+    # Filter out the issues with a lower severity than the given value.
+    # Valid options are: low, medium, high.
+    severity: low
+
+    # Filter out the issues with a lower confidence than the given value.
+    # Valid options are: low, medium, high.
+    confidence: low
+
+    # To specify the configuration of rules.
+    config:
+      # Globals are applicable to all rules.
+      global:
+        # Audit mode enables addition checks that for normal code analysis might be too nosy.
+        audit: true
+
+    excludes:
+      - G114
+
+  # Checks for suspicious constructs.
+  govet:
+    # Report about shadowed variables.
+    check-shadowing: true
+
+    # Settings per analyzer.
+    settings:
+      shadow:
+        # Whether to be strict about shadowing; can be noisy.
+        strict: false
+
+    # Enable all analyzers.
+    enable-all: true
+
+    disable:
+      - fieldalignment
+
+  # Checks for expression groups.
+  grouper:
+    # Require the use of a single 'import' declaration only.
+    import-require-single-import: true
+
+  # Checks for long lines.
+  lll:
+    # Max line length, lines longer will be reported.
+    line-length: 120
+
+  # Checks for the maintainability index of each function.
+  maintidx:
+    # Show functions with maintainability index lower than N.
+    # A high index indicates better maintainability (it's kind of the opposite of complexity).
+    under: 30
+
+  # Checks for commonly misspelled English words in comments.
+  misspell:
+    # Correct spellings using locale preferences for US or UK.
+    # Setting locale to US will correct the British spelling of 'colour' to 'color'.
+    locale: US
+
+    # Ignore certain words.
+    # ignore-words:
+    #   - example
+
+  # Checks for deeply nested if statements.
+  nestif:
+    # Minimal complexity of if statements to report.
+    min-complexity: 5
+
+  nlreturn:
+    # Size of the block (including return statement that is still "OK")
+    # so no return split required.
+    block-size: 3
+
+  # Checks for named returns.
+  nonamedreturns:
+    # Report named error if it is assigned inside defer.
+    report-error-in-defer: true
+
+  # Checks for slice declarations that could potentially be pre-allocated.
+  prealloc:
+    # Report pre-allocation suggestions only on simple loops that have no returns/breaks/continues/gotos in them.
+    simple: false
+    # Report pre-allocation suggestions on for loops.
+    for-loops: true
+
+  # Checks for general linting issues.
+  revive:
+    # Enable all available rules.
+    enable-all-rules: true
+    rules:
+      - name: banned-characters
+        disabled: true
+      - name: cyclomatic
+        arguments: [30]
+      - name: max-public-structs
+        disabled: true
+      - name: line-length-limit
+        arguments: [120]
+      - name: cognitive-complexity
+        disabled: true
+      - name: argument-limit
+        disabled: true
+      - name: file-header
+        disabled: true
+      - name: function-result-limit
+        disabled: true
+      - name: function-length
+        disabled: true
+      - name: receiver-naming
+        disabled: true
+      - name: add-constant
+        disabled: true
+      - name: unused-receiver
+        disabled: true
+      - name: unhandled-error
+        disabled: true
+      - name: blank-imports
+        disabled: true
+      - name: nested-structs
+        disabled: true
+      - name: var-declaration
+        disabled: true
+      - name: flag-parameter
+        disabled: true
+      - name: confusing-naming
+        disabled: true
+      - name: redefines-builtin-id
+        disabled: true
+      - name: unchecked-type-assertion
+        disabled: true
+      - name: import-shadowing
+        disabled: true
+      - name: import-alias-naming
+        disabled: true
+      - name: exported
+        arguments:
+          - "disableStutteringCheck"
+      - name: get-return
+        disabled: true
+
+  # Checks for struct tags correctness.
+  tagliatelle:
+    # Check the struck tag name case.
+    case:
+      # Use the struct field name to check the name of the struct tag.
+      use-field-name: true
+      rules:
+        # Any struct tag type can be used.
+        # Support string case: `camel`, `pascal`, `kebab`, `snake`, `goCamel`, `goPascal`, `goKebab`, `goSnake`, `upper`, `lower`
+        json: snake
+        yaml: camel
+        xml: camel
+        bson: camel
+        avro: snake
+        mapstructure: kebab
+
+# Options for linter availability.
+linters:
+  # Enable all available linters.
+  enable-all: true
+
+  # Disable specific linter
+  disable:
+    - containedctx
+    - depguard
+    - errname
+    - errorlint
+    - execinquery
+    - exhaustive
+    - exhaustivestruct
+    - exhaustruct
+    - gochecknoglobals
+    - gochecknoinits
+    - godox
+    - goerr113
+    - goheader
+    - golint
+    - gomoddirectives
+    - gomodguard
+    - goprintffuncname
+    - importas
+    - interfacer
+    - ireturn
+    - maligned
+    - nakedret
+    - nilnil
+    - nolintlint
+    - nosprintfhostport
+    - prealloc
+    - promlinter
+    - rowserrcheck
+    - scopelint
+    - testpackage
+    - varnamelen
+    - decorder
+    - gomnd
+    - gci
+    - ifshort
+    - nosnakecase
+    - varcheck
+    - structcheck
+    - deadcode
+    - predeclared
+    - wrapcheck
+    - wsl
+    - forcetypeassert
+    - funlen
+    - musttag
+    - tagalign
+
+# Options for issue availability.
+issues:
+  # List of regexps of issue texts to exclude.
+  # But independently of this option we use default exclude patterns,
+  # it can be disabled by `exclude-use-default: false`.
+  # To list all excluded by default patterns execute `golangci-lint run --help`
+  # exclude:
+  #   - example
+
+  # Excluding configuration per-path, per-linter, per-text and per-source
+  exclude-rules:
+    # Exclude some linters from running on tests files.
+    # - path: example
+    #   linters:
+    #     - example
+
+    # Exclude some linter messages.
+    - linters: [revive]
+      text: "don't use ALL_CAPS in Go names"
+
+    - linters: [stylecheck]
+      text: "should not use ALL_CAPS in Go names"
+
+    - linters: [stylecheck]
+      text: "receiver name should be a reflection of its identity"
+
+    - linters: [staticcheck]
+      text: "SA1019"
+
+    - linters: [gofumpt]
+      text: "file is not `gofumpt`-ed with `-extra`"
+
+    - linters: [govet]
+      text: "pointer bytes could be"
+
+  # Independently of option `exclude` we use default exclude patterns,
+  # it can be disabled by this option.
+  # To list all excluded by default patterns execute `golangci-lint run --help`.
+  exclude-use-default: true
+
+  # Maximum issues count per one linter.
+  # Set to 0 to disable.
+  max-issues-per-linter: 0
+
+  # Maximum count of issues with the same text.
+  # Set to 0 to disable.
+  max-same-issues: 0
+
+  # Show only new issues: if there are unstaged changes or untracked files,
+  # only those changes are analyzed, else only changes in HEAD~ are analyzed.
+  # It's a super-useful option for integration of golangci-lint into existing large codebase.
+  # It's not practical to fix all existing issues at the moment of integration:
+  # much better don't allow issues in new code.
+  new: false
+
+  # Fix found issues (if it's supported by the linter).
+  fix: false

@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "Service",
+      "Group": "Servers",
+      "Host": "${SERVICE_DATABASE_HOST}",
+      "Port": "${SERVICE_DATABASE_PORT}",
+      "Username": "${POSTGRES_USER}",
+      "Password": "${POSTGRES_PASSWORD}",
+      "SSLMode": "${SERVICE_DATABASE_SSLMODE}",
+      "MaintenanceDB": "postgres"
+    }
+  }
+}

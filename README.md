@@ -1,151 +1,43 @@
-# microservice-template
-![Gophers](./assets/images/gophers.png "Gophers") **Complete Over-engineered Golang Microservice Template**
+# service
+
+**`Highly opinionated Go service.`** 🐻
+
+## What
+
+This is a complete over-engineered Golang service template, which strongly relies on the building blocks of my (also) [**`highly opinionated Go backend kit`**](https://github.com/neoxelox/kit).
+
+> This template is already being used by some companies on production, handling non-trivial volumes of traffic. However, use it at your own "risk", this is a personal project and support is not the main intention.
 
 ## Features
-- Golang Server
-    - [x] Static compiling
-    - [ ] Clean Architecture
-    - [x] Golang standard layout
-    - [ ] Complete Mock testing
-    - [x] Makefile
-    - [x] Styling checks with GolangCI-Lint
-    - [x] Dockerfile
-    - [x] Echo Web Framework
-    - [ ] Plain sql or GORM
-        - [ ] Migration manager as golang-migrate
-        - [ ] Embeded migrations with go-bindata
-    - [x] Panic-Recovery
-    - [x] Logrus
-    - [ ] Custom errors
-    - [ ] Documentation (Grindsome Docc)
-    - [ ] Automatic Locales Internationalization
-    - [x] Graceful shutdown
-    - [ ] Casbin RBAC Auth Controller
-    - [ ] Load tester as Vegeta
-- Security
-    - [ ] AutoTLS with Let's Encrypt
-    - [ ] CORS management
-    - [ ] Services protected with Authorization
-    - [ ] AWS Secret Manager for environmental variables
-    - [ ] Different database users for admin, app and metrics
-    - [ ] Gosec automatic checks
-- Services
-    - [x] Docker-Compose that inits all services
-    - [x] Postgres
-    - [x] PgAdmin4 (Note: don't use this in prod)
-    - [x] Metabase
-    - [x] Prometheus
-    - [x] Jaeger
-    - [x] Grafana
-    - [ ] NewRelic
-    - [x] Sentry (SaaS)
-        - [ ] Sentry (Self-Hosted)
-    - [ ] Celery or other distributed task system
-    - [ ] Redis cache
-    - [ ] Swagger
-    - [ ] Weblate/Traduora (Self-Hosted)
-    - [ ] Fossa
-    - [ ] Helm charts for deployment
-    - [ ] Nginx/Traefik for load balancing
-    - [ ] Codecov or similar
-    - [ ] Terraform plan
-    - [ ] Liveness, Readiness and Startup probes
 
-## Setup
-- Install:
-    - [`golang 1.14.2 >=`](https://golang.org/dl/)
-    - [`docker 19.03.6 >=`](https://docs.docker.com/get-docker/)
-    - [`docker-compose 1.21.0 >=`](https://docs.docker.com/compose/install/)
-- In the project root directory:
-    - Create an `.env` file with:
-        - `DATABASE_USER`
-        - `DATABASE_PASSWORD`
-        - `SENTRY_DSN` (Optional)
-        - `NEWRELIC_LICENSEKEY` (Optional)
-    - Run `make build` and then `make start`
+This repository packs so many features that I am unable to sit down and list them all : ). Feel free to take a look at the code.
 
-See `makefile` for further commands.
+## Before Getting Started
 
-**Head to [documentation](https://google.com) for a full explanation of the project.**
+### Development
 
-## Architecture
-The project uses a subset of the Clean Architecture, composed of 3 different layers: **Dto**->**Entity**->**Model**, which are disjoint and the dependencies are unidirectional towards the database domain.
+Please, take into account that if you need to change your environment variables, you should make a copy of `envs/dev/.env` to `envs/dev/.env.local` and change them there. Even though you will have to change manually the `envs/dev/docker-compose.yaml` file, this is a better approach because `.env.local` is an ignored file and you won't have the chance to commit it with potential production values 😉.
 
-Use Case handlers are created at launch time, meaning that only a single DB connection pool is created. It will be used to create all kind of repositories, that will then be injected to each **Use Case**. That means that **Repositories** and **Handlers** must be thread safe to attend different requests.
+### Production
 
-Regarding to tests, you should emphasize on unit tests in the Entity domain, and integration tests in the Dto layer. Repository tests are welcomed, but are less "compulsory". Mocks must be created for every entity methods, handler or repository, so that your tests don't rely on imported packages.
+To make this environment functional you will have to make the following changes:
 
-## Structure
-Follows the [Standard Go Project Layout](https://github.com/golang-standards/project-layout).
-```
-.
-├── assets
-│   ├── images
-│   └── locale
-├── build
-├── cmd
-│   └── mst
-├── configs
-├── deploy
-├── docs
-├── init
-├── internal
-│   ├── database
-│   │   └── migrations
-│   ├── entity
-│   │   └── cookie
-│   ├── errors
-│   ├── handler
-│   │   ├── cookie
-│   │   └── health
-│   ├── middleware
-│   ├── repository
-│   │   └── cookie
-│   └── server
-├── pkg
-│   └── fortune
-└── scripts
-```
+1. Make a copy of `envs/prod/.env.example` to `envs/prod/.env` (which is ignored) and fill the variables.
 
-### `/assets`
-Static files to be served by the application.
+2. Create 2 [Cloudflare Tunnels](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/), one for exterior user accessible services `ext`, and the other for interior company-only accessible services and tools `int`.
 
-### `/build`
-Packaging and Continuous Integration cofigurations.
+3. Download both Tunnels certificates to `envs/prod/certs/` (which is ignored).
 
-### `/cmd`
-Main entrypoint for the microservice. Just a small `main` functions that invokes code from `/internal` and `/pkg` and starts the application.
+4. Fill both Tunnels configuration files `envs/prod/cloudflared-ext.yaml & cloudflared-int.yaml` with the Tunnel ID and credentials path.
 
-### `/configs`
-Configuration file templates.
+5. Change the `scripts/tasks.py` `build & deploy` tasks to tag and push your service images to your registry of preference (it should be a private registry...).
 
-### `/deploy`
-System or container orchestration and Continuous Deployment configurations.
+6) Finally, fill the `envs/prod/docker-compose.yaml` so the service containers point to your own registry images.
 
-### `/docs`
-Design and user documents (in addition to godoc generated documentation).
+## Contribute
 
-### `/init`
-System init configuration for once or everytime.
-
-### `/internal`
-Private application code that other projects won't import.
-
-### `/pkg`
-Public library code that other external projects could import. All packages inside this folder should be able to be imported in a go file with `go get yourRepository/pkg/yourPkg`. Each package needs:
-
-- `README.md`
-- `LICENSE`
-- `go.mod` ( create a go module: `go mod init yourPkg` )
-- `yourPkg.go` ( use an `init()` function to intialize the package )
-- `test.go`
-- `mock.go` ( using the [testify](github.com/stretchr/testify) package is a good option for making mocks )
-- `doc.go` ( optional, for [GoDoc](https://godoc.org) )
-
-Notice that your public package **cannot** import code from your private code, thus Go won't be able to compile code imported from an `/internal` directory.
-
-### `/scripts`
-Scripts to perform various build, install, analysis, etc operations. These scripts keep the root level Makefile small and simple.
+Feel free to contribute to this project : ) .
 
 ## License
+
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT) - read the [LICENSE](LICENSE) file for details.
