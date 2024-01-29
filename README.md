@@ -18,6 +18,13 @@ This repository packs so many features that I am unable to sit down and list the
 
 Please, take into account that if you need to change your environment variables, you should make a copy of `envs/dev/.env` to `envs/dev/.env.local` and change them there. Even though you will have to change manually the `envs/dev/docker-compose.yaml` file, this is a better approach because `.env.local` is an ignored file and you won't have the chance to commit it with potential production values 😉.
 
+Also, to setup the environment, follow this steps:
+
+1. Install dependencies: `pip install -r scripts/requirements.txt`
+2. Install tools `inv tool.install --include "dev*"`
+
+Run `inv help` for further commands and `inv <command> --help` for their usage.
+
 ### Production
 
 To make this environment functional you will have to make the following changes:
