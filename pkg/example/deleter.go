@@ -15,7 +15,8 @@ type ExampleDeleter struct {
 	exampleRepository *ExampleRepository
 }
 
-func NewExampleDeleter(observer *kit.Observer, database *kit.Database, exampleRepository *ExampleRepository, config config.Config) *ExampleDeleter {
+func NewExampleDeleter(observer *kit.Observer, database *kit.Database, exampleRepository *ExampleRepository,
+	config config.Config) *ExampleDeleter {
 	return &ExampleDeleter{
 		config:            config,
 		observer:          observer,

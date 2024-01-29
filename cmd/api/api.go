@@ -214,7 +214,8 @@ func NewAPI(ctx context.Context, config config.Config) (*API, error) {
 	healthEndpoints := util.NewHealthEndpoints(observer, database, cache, config)
 	fileEndpoints := util.NewFileEndpoints(observer, config)
 
-	exampleEndpoints := example.NewExampleEndpoints(observer, localizer, exampleGetter, exampleCreator, exampleDeleter, config)
+	exampleEndpoints := example.NewExampleEndpoints(
+		observer, localizer, exampleGetter, exampleCreator, exampleDeleter, config)
 
 	/* MIDDLEWARES */
 

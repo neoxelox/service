@@ -163,11 +163,13 @@ func NewCLI(ctx context.Context, config config.Config) (*CLI, error) {
 
 	/* REGISTRATIONS */
 
-	runner.Register(util.DatabaseCommandsRollback, databaseCommands.Rollback, util.DatabaseCommandsRollbackArgs{}, "rollback migrations")
+	runner.Register(util.DatabaseCommandsRollback, databaseCommands.Rollback,
+		util.DatabaseCommandsRollbackArgs{}, "rollback migrations")
 
 	runner.Use(exampleMiddlewares.HandleCommand)
 
-	runner.Register(example.ExampleCommandsForceOnboarding, exampleCommands.ForceOnboarding, example.ExampleCommandsForceOnboardingArgs{}, "force onboarding to an example")
+	runner.Register(example.ExampleCommandsForceOnboarding, exampleCommands.ForceOnboarding,
+		example.ExampleCommandsForceOnboardingArgs{}, "force onboarding to an example")
 
 	return &CLI{
 		Run: func(ctx context.Context) error {

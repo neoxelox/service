@@ -65,7 +65,7 @@ func (self *ExampleTasks) MakeOnboarding(ctx context.Context, task *asynq.Task) 
 	return nil
 }
 
-func (self *ExampleTasks) Reconcile(ctx context.Context, task *asynq.Task) error {
+func (self *ExampleTasks) Reconcile(ctx context.Context, _ *asynq.Task) error {
 	self.observer.Info(ctx, "reconciling examples")
 
 	return nil

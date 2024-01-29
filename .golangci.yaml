@@ -148,6 +148,11 @@ linters-settings:
     excludes:
       - G114
 
+  # Checks to simplify the code.
+  gosimple:
+    # Sxxxx checks in https://staticcheck.io/docs/configuration/options/#checks
+    checks: ["all", "-S1016"]
+
   # Checks for suspicious constructs.
   govet:
     # Report about shadowed variables.

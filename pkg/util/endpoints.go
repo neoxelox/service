@@ -23,7 +23,8 @@ type HealthEndpoints struct {
 	cache    *kit.Cache
 }
 
-func NewHealthEndpoints(observer *kit.Observer, database *kit.Database, cache *kit.Cache, config config.Config) *HealthEndpoints {
+func NewHealthEndpoints(observer *kit.Observer, database *kit.Database, cache *kit.Cache,
+	config config.Config) *HealthEndpoints {
 	return &HealthEndpoints{
 		config:   config,
 		observer: observer,

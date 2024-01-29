@@ -58,8 +58,10 @@ type ExampleServiceGetCountryResult struct {
 	Country string
 }
 
-func (self *ExampleService) GetCountry(ctx context.Context, params ExampleServiceGetCountryParams) (*ExampleServiceGetCountryResult, error) {
-	response, err := self.client.Request(ctx, "GET", fmt.Sprintf("%s/?name=%s", self.config.ExampleService.BaseURL, params.Name), nil)
+func (self *ExampleService) GetCountry(ctx context.Context,
+	params ExampleServiceGetCountryParams) (*ExampleServiceGetCountryResult, error) {
+	response, err := self.client.Request(
+		ctx, "GET", fmt.Sprintf("%s/?name=%s", self.config.ExampleService.BaseURL, params.Name), nil)
 	if err != nil {
 		if kit.ErrHTTPClientTimedOut.Is(err) {
 			return nil, ErrExampleServiceTimedOut.Raise().Cause(err)

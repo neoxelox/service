@@ -22,7 +22,8 @@ type ExampleCreator struct {
 	enqueuer          *kit.Enqueuer
 }
 
-func NewExampleCreator(observer *kit.Observer, exampleService *ExampleService, exampleRepository *ExampleRepository, enqueuer *kit.Enqueuer, config config.Config) *ExampleCreator {
+func NewExampleCreator(observer *kit.Observer, exampleService *ExampleService, exampleRepository *ExampleRepository,
+	enqueuer *kit.Enqueuer, config config.Config) *ExampleCreator {
 	return &ExampleCreator{
 		config:            config,
 		observer:          observer,

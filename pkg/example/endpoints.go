@@ -23,7 +23,8 @@ type ExampleEndpoints struct {
 	exampleDeleter *ExampleDeleter
 }
 
-func NewExampleEndpoints(observer *kit.Observer, localizer *kit.Localizer, exampleGetter *ExampleGetter, exampleCreator *ExampleCreator, exampleDeleter *ExampleDeleter, config config.Config) *ExampleEndpoints {
+func NewExampleEndpoints(observer *kit.Observer, localizer *kit.Localizer, exampleGetter *ExampleGetter,
+	exampleCreator *ExampleCreator, exampleDeleter *ExampleDeleter, config config.Config) *ExampleEndpoints {
 	return &ExampleEndpoints{
 		config:         config,
 		observer:       observer,

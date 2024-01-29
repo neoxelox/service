@@ -21,7 +21,8 @@ type ExampleGetter struct {
 	exampleRepository *ExampleRepository
 }
 
-func NewExampleGetter(observer *kit.Observer, cache *kit.Cache, exampleRepository *ExampleRepository, config config.Config) *ExampleGetter {
+func NewExampleGetter(observer *kit.Observer, cache *kit.Cache, exampleRepository *ExampleRepository,
+	config config.Config) *ExampleGetter {
 	return &ExampleGetter{
 		config:            config,
 		observer:          observer,
