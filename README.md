@@ -16,9 +16,9 @@ This repository packs so many features that I am unable to sit down and list the
 
 ### Development
 
-Please, take into account that if you need to change your environment variables, you should make a copy of `envs/dev/.env` to `envs/dev/.env.local` and change them there. Even though you will have to change manually the `envs/dev/docker-compose.yaml` file, this is a better approach because `.env.local` is an ignored file and you won't have the chance to commit it with potential production values 😉.
+Make a copy of `envs/dev/.env.example` to `envs/dev/.env` and fill the variables. `envs/dev/.env` is an ignored file so you won't have the chance to commit it with potential production values 😉.
 
-Also, to setup the environment, follow this steps:
+Also, to setup the environment, follow these steps:
 
 1. Install dependencies: `pip install -r scripts/requirements.txt`
 2. Install tools `inv tool.install --include "dev*"`
@@ -27,7 +27,7 @@ Run `inv help` for further commands and `inv <command> --help` for their usage.
 
 ### Production
 
-To make this environment functional you will have to make the following changes:
+To make this environment work you will have to make the following changes:
 
 1. Make a copy of `envs/prod/.env.example` to `envs/prod/.env` (which is ignored) and fill the variables.
 

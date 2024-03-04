@@ -7,7 +7,7 @@
 *.stTheme.cache
 *.sublime-workspace
 .DS_Store
-envs/dev/.env.local
+# envs/dev/.env
 envs/prod/.env
 envs/dev/tmp/
 envs/prod/certs/
