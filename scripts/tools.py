@@ -28,7 +28,7 @@ class Tools(superinvoke.Tools):
 
     Go = superinvoke.Tool(
         name="go",
-        version=">=1.21.0",
+        version=">=1.22.0",
         tags=[Tags.DEV, Tags.CI_INT],
         path="go",
     )

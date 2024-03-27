@@ -1,4 +1,4 @@
-FROM golang:1.21-alpine
+FROM golang:1.22-alpine
 
 ENV CGO_ENABLED=0 \
     GO111MODULE=on \
@@ -8,7 +8,7 @@ ENV CGO_ENABLED=0 \
 WORKDIR /app
 
 # Setup air hot reloader
-RUN wget https://github.com/cosmtrek/air/releases/download/v1.49.0/air_1.49.0_linux_amd64 -O air && \
+RUN wget https://github.com/cosmtrek/air/releases/download/v1.51.0/air_1.51.0_linux_amd64 -O air && \
     chmod +x air && \
     mv ./air /bin/air
 
