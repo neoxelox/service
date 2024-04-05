@@ -8,7 +8,7 @@ require (
 	github.com/leporo/sqlf v1.4.0
 	github.com/mkideal/cli v0.2.7
 	github.com/neoxelox/errors v0.2.0
-	github.com/neoxelox/kit v0.26.0
+	github.com/neoxelox/kit v0.29.0
 	github.com/rs/xid v1.5.0
 	golang.org/x/text v0.14.0
 )

@@ -4,7 +4,7 @@ tmp_dir = "envs/dev/tmp"
 
 [build]
 # Just plain old shell command. You could use `make` as well.
-cmd = "go build -a -tags netgo -ldflags '-w -extldflags \"-static\"' -o ./envs/dev/tmp/api ./cmd/api/*.go"
+cmd = "go build -o ./envs/dev/tmp/api ./cmd/api/*.go"
 # Binary file yields from `cmd`.
 bin = "./envs/dev/tmp/api"
 # Customize binary.

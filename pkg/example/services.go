@@ -3,7 +3,6 @@ package example
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"time"
 
 	"github.com/neoxelox/errors"
@@ -30,7 +29,12 @@ type ExampleService struct {
 
 func NewExampleService(observer *kit.Observer, config config.Config) *ExampleService {
 	client := kit.NewHTTPClient(observer, kit.HTTPClientConfig{
-		Timeout:          EXAMPLE_SERVICE_TIMEOUT,
+		Timeout: EXAMPLE_SERVICE_TIMEOUT,
+		BaseURL: util.Pointer(config.ExampleService.BaseURL),
+		Headers: util.Pointer(map[string]string{
+			"Content-Type": "application/json",
+		}),
+		RaiseForStatus:   util.Pointer(true),
 		AllowedRedirects: util.Pointer(0),
 		DefaultRetry: util.Pointer(kit.RetryConfig{
 			Attempts:     3,
@@ -60,8 +64,7 @@ type ExampleServiceGetCountryResult struct {
 
 func (self *ExampleService) GetCountry(ctx context.Context,
 	params ExampleServiceGetCountryParams) (*ExampleServiceGetCountryResult, error) {
-	response, err := self.client.Request(
-		ctx, "GET", fmt.Sprintf("%s/?name=%s", self.config.ExampleService.BaseURL, params.Name), nil)
+	response, err := self.client.Request(ctx, "GET", "/?name="+params.Name, nil, nil)
 	if err != nil {
 		if kit.ErrHTTPClientTimedOut.Is(err) {
 			return nil, ErrExampleServiceTimedOut.Raise().Cause(err)
