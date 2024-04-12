@@ -75,10 +75,11 @@ func (self *ExampleEndpoints) GetExampleByID(ctx echo.Context) error {
 }
 
 type ExampleEndpointsPostExampleRequest struct {
-	Name            string `json:"name"`
-	Age             int    `json:"age"`
-	Role            string `json:"role"`
-	WantsNewsletter *bool  `json:"wants_newsletter"`
+	MagicText       *string `header:"Magic-Text"`
+	Name            string  `json:"name"`
+	Age             int     `json:"age"`
+	Role            string  `json:"role"`
+	WantsNewsletter *bool   `json:"wants_newsletter"`
 }
 
 type ExampleEndpointsPostExampleResponse struct {
@@ -91,6 +92,10 @@ func (self *ExampleEndpoints) PostExample(ctx echo.Context) error {
 	err := ctx.Bind(&request)
 	if err != nil {
 		return kit.HTTPErrInvalidRequest.Cause(err)
+	}
+
+	if request.MagicText != nil {
+		self.observer.Info(ctx.Request().Context(), *request.MagicText)
 	}
 
 	// NOTE: Ideally this would be inside of an ExampleValidator

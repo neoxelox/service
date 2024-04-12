@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "Example",
-    "dateExported": "2024-01-29T01:04:50.004Z",
+    "dateExported": "2024-04-12T10:28:25.015Z",
     "version": "1.1",
     "folders": [],
     "requests": [
@@ -128,8 +128,13 @@
             "method": "POST",
             "sortNum": 20000,
             "created": "2024-01-20T19:37:47.071Z",
-            "modified": "2024-01-25T16:06:24.231Z",
-            "headers": [],
+            "modified": "2024-04-12T10:27:40.971Z",
+            "headers": [
+                {
+                    "name": "Magic-Text",
+                    "value": "Hello from the headers!"
+                }
+            ],
             "params": [],
             "body": {
                 "type": "json",
