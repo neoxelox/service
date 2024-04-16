@@ -143,6 +143,7 @@ func NewCLI(ctx context.Context, config config.Config) (*CLI, error) {
 		CacheReadTimeout:  kitUtil.Pointer(config.Cache.ReadTimeout),
 		CacheWriteTimeout: kitUtil.Pointer(config.Cache.WriteTimeout),
 		CacheDialTimeout:  kitUtil.Pointer(config.Cache.DialTimeout),
+		TaskDefaultRetry:  kitUtil.Pointer(0),
 	})
 
 	/* REPOSITORIES  */

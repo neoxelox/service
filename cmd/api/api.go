@@ -128,21 +128,22 @@ func NewAPI(ctx context.Context, config config.Config) (*API, error) {
 	})
 
 	observerMiddleware := kitMiddleware.NewObserver(observer, kitMiddleware.ObserverConfig{})
+	timeoutMiddleware := kitMiddleware.NewTimeout(observer, kitMiddleware.TimeoutConfig{
+		// Allow timeout handler to respond before response writer is closed
+		Timeout: config.Service.GracefulTimeout - (1 * time.Second),
+	})
 	recoverMiddleware := kitMiddleware.NewRecover(observer, kitMiddleware.RecoverConfig{})
 	secureMiddleware := kitMiddleware.NewSecure(observer, kitMiddleware.SecureConfig{
 		CORSAllowOrigins: kitUtil.Pointer(config.Server.Origins),
 	})
 	localizerMiddleware := kitMiddleware.NewLocalizer(observer, localizer, kitMiddleware.LocalizerConfig{})
-	timeoutMiddleware := kitMiddleware.NewTimeout(observer, kitMiddleware.TimeoutConfig{
-		Timeout: config.Service.GracefulTimeout,
-	})
 	errorMiddleware := kitMiddleware.NewError(observer, kitMiddleware.ErrorConfig{})
 
 	server.Use(observerMiddleware.HandleRequest)
+	server.Use(timeoutMiddleware.Handle)
 	server.Use(recoverMiddleware.HandleRequest)
 	server.Use(secureMiddleware.Handle)
 	server.Use(localizerMiddleware.Handle)
-	server.Use(timeoutMiddleware.Handle)
 	server.Use(errorMiddleware.Handle)
 
 	api := server.Default()
@@ -193,6 +194,7 @@ func NewAPI(ctx context.Context, config config.Config) (*API, error) {
 		CacheReadTimeout:  kitUtil.Pointer(config.Cache.ReadTimeout),
 		CacheWriteTimeout: kitUtil.Pointer(config.Cache.WriteTimeout),
 		CacheDialTimeout:  kitUtil.Pointer(config.Cache.DialTimeout),
+		TaskDefaultRetry:  kitUtil.Pointer(0),
 	})
 
 	/* REPOSITORIES  */

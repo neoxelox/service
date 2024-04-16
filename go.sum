@@ -221,8 +221,8 @@ github.com/neoxelox/errors v0.2.0 h1:AhvCMJAjUBFCP3PgZHbY6SS8Sc9fxx/DiawU5Cd5RxE
 github.com/neoxelox/errors v0.2.0/go.mod h1:gCPnC7z8Qwswwz5Usv3WORxvan9Q6WSrDTvzaQyl7oM=
 github.com/neoxelox/gilk v0.5.0 h1:Knw/TgSUnwPDIRJbqoTmG98gYsmKojNCJ5WAjALoWFc=
 github.com/neoxelox/gilk v0.5.0/go.mod h1:Q+WgmSMKWd5UAaVjLSmGPbVD11AmHFhlo3QrPum0vo0=
-github.com/neoxelox/kit v0.30.0 h1:Rpp/WKYZ/QDcPuFZrfyaA2aMYBzjJFoD3TNE0xjQbuw=
-github.com/neoxelox/kit v0.30.0/go.mod h1:IgYpZ0XID15bSpHXCnrJA6to5j69fzkbn0knfsEpdAE=
+github.com/neoxelox/kit v0.33.0 h1:9IlIuwVP3Bb+herHpDTLYEA9vFUKGCD1C67LD2hr3U8=
+github.com/neoxelox/kit v0.33.0/go.mod h1:IgYpZ0XID15bSpHXCnrJA6to5j69fzkbn0knfsEpdAE=
 github.com/nxadm/tail v1.4.4/go.mod h1:kenIhsEOeOJmVchQTgglprH7qJGnHDVpk1VPCcaMI8A=
 github.com/nxadm/tail v1.4.8 h1:nPr65rt6Y5JFSKQO7qToXr7pePgD6Gwiw05lkbyAQTE=
 github.com/nxadm/tail v1.4.8/go.mod h1:+ncqLTQzXmGhMZNUePPaPqPvBxHAIsmXswZKocGu+AU=
