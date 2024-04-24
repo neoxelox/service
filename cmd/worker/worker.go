@@ -103,19 +103,20 @@ func NewWorker(ctx context.Context, config config.Config) (*Worker, error) {
 	}
 
 	worker := kit.NewWorker(observer, errorHandler, kit.WorkerConfig{
-		Queues:            config.Worker.Queues,
-		Concurrency:       kitUtil.Pointer(config.Worker.Concurrency),
-		StrictPriority:    kitUtil.Pointer(config.Worker.StrictPriority),
-		StopTimeout:       kitUtil.Pointer(config.Worker.StopTimeout),
-		TimeZone:          kitUtil.Pointer(config.Service.TimeZone),
-		CacheHost:         config.Cache.Host,
-		CachePort:         config.Cache.Port,
-		CacheSSLMode:      config.Cache.SSLMode,
-		CachePassword:     config.Cache.Password,
-		CacheMaxConns:     kitUtil.Pointer(config.Cache.MaxConns),
-		CacheReadTimeout:  kitUtil.Pointer(config.Cache.ReadTimeout),
-		CacheWriteTimeout: kitUtil.Pointer(config.Cache.WriteTimeout),
-		CacheDialTimeout:  kitUtil.Pointer(config.Cache.DialTimeout),
+		Queues:               config.Worker.Queues,
+		Concurrency:          kitUtil.Pointer(config.Worker.Concurrency),
+		StrictPriority:       kitUtil.Pointer(config.Worker.StrictPriority),
+		StopTimeout:          kitUtil.Pointer(config.Worker.StopTimeout),
+		TimeZone:             kitUtil.Pointer(config.Service.TimeZone),
+		ScheduleDefaultRetry: kitUtil.Pointer(0),
+		CacheHost:            config.Cache.Host,
+		CachePort:            config.Cache.Port,
+		CacheSSLMode:         config.Cache.SSLMode,
+		CachePassword:        config.Cache.Password,
+		CacheMaxConns:        kitUtil.Pointer(config.Cache.MaxConns),
+		CacheReadTimeout:     kitUtil.Pointer(config.Cache.ReadTimeout),
+		CacheWriteTimeout:    kitUtil.Pointer(config.Cache.WriteTimeout),
+		CacheDialTimeout:     kitUtil.Pointer(config.Cache.DialTimeout),
 	})
 
 	observerMiddleware := kitMiddleware.NewObserver(observer, kitMiddleware.ObserverConfig{})

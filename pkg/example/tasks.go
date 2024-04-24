@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 
 	"github.com/hibiken/asynq"
-	"github.com/neoxelox/errors"
 	"github.com/neoxelox/kit"
 
 	"service/pkg/config"
@@ -14,10 +13,6 @@ import (
 const (
 	ExampleTasksMakeOnboarding = "example:onboarding"
 	ExampleTasksReconcile      = "example:reconcile"
-)
-
-var (
-	ErrExampleTasksGeneric = errors.New("example task failed")
 )
 
 type ExampleTasks struct {
@@ -50,7 +45,7 @@ func (self *ExampleTasks) MakeOnboarding(ctx context.Context, task *asynq.Task) 
 
 	example, err := self.exampleRepository.Get(ctx, params.ID)
 	if err != nil {
-		return ErrExampleTasksGeneric.Raise().Cause(err)
+		return err
 	}
 
 	if example == nil {

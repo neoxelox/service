@@ -3,6 +3,7 @@ package example
 import (
 	"context"
 
+	"github.com/hibiken/asynq"
 	"github.com/neoxelox/errors"
 	"github.com/neoxelox/kit"
 	"github.com/rs/xid"
@@ -75,7 +76,7 @@ func (self *ExampleCreator) Create(ctx context.Context, params ExampleCreatorCre
 
 	err = self.enqueuer.Enqueue(ctx, ExampleTasksMakeOnboarding, ExampleTasksMakeOnboardingParams{
 		ID: example.ID,
-	})
+	}, asynq.MaxRetry(3))
 	if err != nil {
 		self.observer.Error(ctx, err)
 	}
