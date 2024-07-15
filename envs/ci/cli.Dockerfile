@@ -23,7 +23,7 @@ FROM alpine AS app
 
 # Setup TLS
 RUN apk update && \
-    apk add --no-cache ca-certificates && \
+    apk add --no-cache ca-certificates tzdata && \
     rm -rf /var/cache/apk/*
 
 # Running directory has to have the same path as the build one for stacktrace mapping

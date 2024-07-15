@@ -59,6 +59,7 @@ type ConfigCache struct {
 type ConfigServer struct {
 	Host                     string
 	Port                     int
+	BaseURL                  string
 	Origins                  []string
 	RequestHeaderMaxSize     int
 	RequestBodyMaxSize       int

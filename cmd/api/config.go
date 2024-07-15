@@ -57,6 +57,7 @@ func NewConfig() *config.Config {
 
 	config.Server.Host = util.GetEnv("SERVICE_API_HOST", "localhost")
 	config.Server.Port = util.GetEnv("SERVICE_API_PORT", 1111)
+	config.Server.BaseURL = util.GetEnv("SERVICE_API_BASE_URL", "http://localhost:1111")
 	config.Server.Origins = util.GetEnv("SERVICE_API_ORIGINS", []string{"http://localhost:1111"})
 	config.Server.RequestHeaderMaxSize = 1 << 10 // 1 KB
 	config.Server.RequestBodyMaxSize = 4 << 10   // 4 KB
