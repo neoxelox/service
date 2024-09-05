@@ -3,5 +3,6 @@ credentials-file: /etc/cloudflared/certs/.json
 
 ingress:
   - hostname: api.
+    path: ^/ext
     service: http://api:1111
   - service: http_status:404

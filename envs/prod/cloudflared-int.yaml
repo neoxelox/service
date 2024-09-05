@@ -2,6 +2,8 @@ tunnel:
 credentials-file: /etc/cloudflared/certs/.json
 
 ingress:
+  - hostname: api.
+    service: http://api:1111
   - hostname: metabase.
     service: http://metabase:2222
   - hostname: asynqmon.

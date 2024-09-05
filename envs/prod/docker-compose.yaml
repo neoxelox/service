@@ -38,9 +38,11 @@ services:
     env_file: ./.env
     command: "tunnel --no-autoupdate --origincert /etc/cloudflared/certs/cert.pem run ${CLOUDFLARE_TUNNEL_INT_NAME}"
     depends_on:
+      - api
       - metabase
       - asynqmon
     links:
+      - api:api
       - metabase:metabase
       - asynqmon:asynqmon
     volumes:

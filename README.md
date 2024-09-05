@@ -35,7 +35,7 @@ To make this environment work you will have to make the following changes:
 
 3. Download both Tunnels certificates to `envs/prod/certs/` (which is ignored).
 
-4. Fill both Tunnels configuration files `envs/prod/cloudflared-ext.yaml & cloudflared-int.yaml` with the Tunnel ID and credentials path.
+4. Fill both Tunnels configuration files `envs/prod/cloudflared-ext.yaml & cloudflared-int.yaml` with the Tunnel ID, credentials path and hostnames.
 
 5. Change the `scripts/tasks.py` `build & deploy` tasks to tag and push your service images to your registry of preference (it should be a private registry...).
 
