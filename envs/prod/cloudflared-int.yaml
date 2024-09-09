@@ -1,5 +1,12 @@
 tunnel:
 credentials-file: /etc/cloudflared/certs/.json
+originRequest:
+  access:
+    required: true
+    teamName:
+    audTag:
+      - ... # Metabase
+      - ... # Asynqmon
 
 ingress:
   - hostname: api.
